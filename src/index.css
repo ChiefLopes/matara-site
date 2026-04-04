@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Shojumaru", system-ui, sans-serif;
+  --font-body: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-background: var(--bg-color);
+  --color-surface: var(--surface-color);
+  --color-surface-container: var(--surface-container-color);
+  --color-surface-container-low: var(--surface-container-low-color);
+  --color-surface-container-high: var(--surface-container-high-color);
+  --color-surface-container-highest: var(--surface-container-highest-color);
+  --color-primary: var(--primary-color);
+  --color-secondary-container: #454747;
+  --color-on-surface: var(--on-surface-color);
+  --color-on-surface-variant: var(--on-surface-variant-color);
+}
+
+:root {
+  --bg-color: #08151d;
+  --surface-color: #08151d;
+  --surface-container-color: #142129;
+  --surface-container-low-color: #101d25;
+  --surface-container-high-color: #1f2c34;
+  --surface-container-highest-color: #2a363f;
+  --primary-color: #ffffff;
+  --on-surface-color: #d7e4f0;
+  --on-surface-variant-color: #cac7b6;
+}
+
+.light {
+  --bg-color: #f8fafc;
+  --surface-color: #ffffff;
+  --surface-container-color: #f1f5f9;
+  --surface-container-low-color: #ffffff;
+  --surface-container-high-color: #e2e8f0;
+  --surface-container-highest-color: #cbd5e1;
+  --primary-color: #08151d;
+  --on-surface-color: #0f172a;
+  --on-surface-variant-color: #475569;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-body selection:bg-amber-400 selection:text-black transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  :root {
+    --glass-bg: rgba(50, 53, 56, 0.4);
+    --glass-border: rgba(168, 138, 133, 0.1);
+  }
+
+  .light {
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.05);
+  }
+  
+  .solar-flare-gradient {
+    background: linear-gradient(135deg, #f7be33 0%, #795900 100%);
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Shojumaru&family=Poppins:wght@300;400;500;700&display=swap');
