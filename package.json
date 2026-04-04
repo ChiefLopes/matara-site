@@ -24,7 +24,7 @@
     "react-dom": "^19.0.0",
     "viem": "^2.47.6",
     "vite": "^6.2.0",
-    "wagmi": "^3.6.0"
+    "wagmi": "^2.19.5"
   },
   "overrides": {
     "node-domexception": "1.0.0"
