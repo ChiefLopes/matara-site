@@ -208,22 +208,10 @@ const TransactionLog = ({ isDarkMode }: { isDarkMode: boolean }) => {
     } catch (error) {
       // Silently handle or provide minimal log to avoid cluttering if it's a transient network issue
       console.warn("Could not sync live txs from API, using cached data.");
-      // Ensure we still have some data to show
-      if (txs.length === 0) {
-        const fallbackTxs = Array.from({ length: 5 }).map((_, i) => ({
-          hash: `0x${Math.random().toString(16).slice(2, 10)}...`,
-          type: 'BUY',
-          amount: '1.20',
-          tokens: '500,000',
-          time: '2m ago',
-          status: 'Success'
-        }));
-        setTxs(fallbackTxs);
-      }
     } finally {
       setLoading(false);
     }
-  }, [txs.length]);
+  }, []);
 
   useEffect(() => {
     fetchTxs();
@@ -587,10 +575,6 @@ export default function App() {
 
   useEffect(() => {
     setMounted(true);
-    // Clear hash if it's #security to prevent WalletConnect authorization issues in iframe
-    if (window.location.hash === '#security') {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
   }, []);
 
   if (!mounted) return null;
@@ -614,6 +598,16 @@ function AppContent() {
     return () => clearTimeout(timer);
   }, []);
 
+  const [notifications, setNotifications] = useState<{ id: number, message: string, type: 'success' | 'error' | 'info' }[]>([]);
+
+  const addNotification = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    const id = Date.now();
+    setNotifications(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== id));
+    }, 5000);
+  }, []);
+
   const { address, isConnected } = useAccount();
   const { data: bnbBalance } = useBalance({ 
     address,
@@ -625,7 +619,7 @@ function AppContent() {
     address: '0x6844B2e9afB002d188A072A3ef0FBb068650F214' as `0x${string}`,
     abi: erc20Abi,
     functionName: 'balanceOf',
-    args: address ? [address as `0x${string}`] : undefined,
+    args: address ? [address] : undefined,
     query: {
       enabled: !!address,
     }
@@ -736,11 +730,11 @@ function AppContent() {
 
   const handleSwap = async () => {
     if (!isConnected) {
-      alert("Please connect your wallet first, warrior.");
+      addNotification("Please connect your wallet first, warrior.", "error");
       return;
     }
     if (!bnbInput || parseFloat(bnbInput) <= 0) {
-      alert("Enter a valid BNB amount.");
+      addNotification("Enter a valid BNB amount.", "error");
       return;
     }
     setShowSwapConfirmModal(true);
@@ -755,10 +749,10 @@ function AppContent() {
         to: PANCAKE_ROUTER as `0x${string}`,
         value: parseEther(bnbInput),
       });
-      alert("Swap transaction submitted! Check your wallet.");
+      addNotification("Swap transaction submitted! Check your wallet.", "success");
     } catch (error: any) {
       console.error("Swap failed:", error);
-      alert(`Swap failed: ${error.shortMessage || error.message}`);
+      addNotification(`Swap failed: ${error.shortMessage || error.message}`, "error");
     } finally {
       setSwapping(false);
     }
@@ -767,7 +761,7 @@ function AppContent() {
   const handleNewsletterSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail || !newsletterEmail.includes("@")) {
-      alert("Please enter a valid email address.");
+      addNotification("Please enter a valid email address.", "error");
       return;
     }
     setSubscribing(true);
@@ -807,6 +801,15 @@ function AppContent() {
           </div>
           
           <div className="hidden md:flex gap-8 items-center">
+            {window.self !== window.top && (
+              <button 
+                onClick={() => window.open(window.location.href, '_blank')}
+                className="text-[10px] font-bold uppercase tracking-widest bg-white/5 text-zinc-400 px-4 py-2 rounded-sm border border-white/10 hover:bg-white/10 transition-all flex items-center gap-2"
+              >
+                <ExternalLink className="w-3 h-3" />
+                Open in New Tab
+              </button>
+            )}
             {navItems.map((item) => (
               <a 
                 key={item}
@@ -1761,6 +1764,26 @@ function AppContent() {
           </div>
         </div>
       </footer>
+      <AnimatePresence>
+        {notifications.map(n => (
+          <motion.div
+            key={n.id}
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, scale: 0.95, x: '-50%' }}
+            className={`fixed bottom-8 left-1/2 z-[1000] px-6 py-3 rounded-xl border shadow-2xl flex items-center gap-3 min-w-[300px] ${
+              n.type === 'success' ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400' :
+              n.type === 'error' ? 'bg-rose-500/10 border-rose-500/50 text-rose-400' :
+              'bg-amber-500/10 border-amber-500/50 text-amber-400'
+            }`}
+          >
+            {n.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> :
+             n.type === 'error' ? <X className="w-5 h-5" /> :
+             <Info className="w-5 h-5" />}
+            <span className="text-sm font-medium">{n.message}</span>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

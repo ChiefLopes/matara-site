@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matara Sovereign Galactic | $MARS on BSC</title>
+    <script>
+      // Clear hash if it's #security to prevent WalletConnect authorization issues in iframe
+      if (window.location.hash === '#security') {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
