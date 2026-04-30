@@ -240,7 +240,8 @@ const TransactionLog = ({ isDarkMode }: { isDarkMode: boolean }) => {
       const data = await response.json();
 
       // Dexscreener returns pairs for the token
-      // We can use the transaction data from the top pair if available
+        // We can use the transaction data from the top pair if available
+        // just added this
       const topPair = data.pairs?.[0];
 
       // Even if fetch fails or returns no data, we mock for the "Live Log" feel
