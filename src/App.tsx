@@ -240,8 +240,8 @@ const TransactionLog = ({ isDarkMode }: { isDarkMode: boolean }) => {
       const data = await response.json();
 
       // Dexscreener returns pairs for the token
-        // We can use the transaction data from the top pair if available
-        // just added this
+      // We can use the transaction data from the top pair if available
+      // just added this
       const topPair = data.pairs?.[0];
 
       // Even if fetch fails or returns no data, we mock for the "Live Log" feel
@@ -2166,13 +2166,14 @@ function AppContent() {
         <div className="container mx-auto px-6 md:px-12 py-16 md:py-20 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
             <div className="space-y-6 max-w-xs">
-           <div className="flex items-center">
-            <img
-              src={isDarkMode ? "/matara-icon1.png" : "/matara-c1.jpeg"}
-              alt="Matara Logo"
-              className="h-10 md:h-12 w-auto object-contain"
-            />
-          </div>
+              <div className="flex items-center">
+                {/* Footer Image */}
+                <img
+                  src={isDarkMode ? "/matara-icon1.png" : "/matara-c1.jpeg"}
+                  alt="Matara Logo"
+                  className="h-10 md:h-12 w-auto object-contain"
+                />
+              </div>
               <p className="text-zinc-500 text-sm leading-relaxed">
                 The sovereign token of the Marsverse. Building a future defined
                 by purpose, strength, and community governance.
