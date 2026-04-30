@@ -240,7 +240,8 @@ const TransactionLog = ({ isDarkMode }: { isDarkMode: boolean }) => {
       const data = await response.json();
 
       // Dexscreener returns pairs for the token
-      // We can use the transaction data from the top pair if available
+        // We can use the transaction data from the top pair if available
+        // just added this
       const topPair = data.pairs?.[0];
 
       // Even if fetch fails or returns no data, we mock for the "Live Log" feel
@@ -2060,7 +2061,6 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      {/* Swap Confirmation Modal */}
       <AnimatePresence>
         {showSwapConfirmModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
@@ -2157,7 +2157,7 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      {/* Footer */}
+      {/* Footer Section  */}
       <footer className="bg-neutral-950 border-t border-zinc-900/50">
         <div className="container mx-auto px-6 md:px-12 py-16 md:py-20 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
