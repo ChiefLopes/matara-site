@@ -940,8 +940,12 @@ function AppContent() {
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-surface/60 py-3 backdrop-blur-2xl border-b border-white/5" : "bg-transparent py-6"}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <div className="text-2xl font-black text-amber-400 tracking-tighter font-headline">
-            MATARA
+          <div className="flex items-center">
+            <img
+              src={isDarkMode ? "/matara-icon1.png" : "/matara-c1.jpeg"}
+              alt="Matara Logo"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </div>
 
           <div className="hidden md:flex gap-8 items-center">
