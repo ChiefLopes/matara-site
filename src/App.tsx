@@ -1150,7 +1150,7 @@ function AppContent() {
                       href={LINKS.PANCAKESWAP}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-web3 solar-flare-gradient text-black px-8 py-3.5 font-headline font-bold tracking-widest uppercase rounded-sm hover:shadow-[0_0_50px_rgba(247,190,51,0.2)] hover:-translate-y-1 transition-all flex items-center justify-center gap-2.5 group text-xs">
+                      className="btn-web3 solar-flare-gradient text-black px-8 py-3.5 font-headline font-bold tracking-widest uppercase rounded-sm hover:shadow-[0_0_50px_rgba(247,190,51,0.2)] hover:-translate-y-1 transition-all flex items-center justify-center gap-2.5 group text-xs font-semibold">
                       Buy $MARS on PANCAKESWAP
                       <Rocket className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </a>
