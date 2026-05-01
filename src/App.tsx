@@ -938,11 +938,15 @@ function AppContent() {
       </AnimatePresence>
       {/* Navigation */}
       <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-surface/60 py-3 backdrop-blur-2xl border-b border-white/5" : "bg-transparent py-6"}`}>
+        className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-neutral-950/80 py-3 backdrop-blur-2xl border-b border-white/5"
+            : `${!isDarkMode ? "bg-neutral-950/70 backdrop-blur-md " : "bg-transparent"} py-4`
+        }`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center">
             <img
-              src={isDarkMode ? "/matara-icon1.png" : "/matara-c1.jpeg"}
+              src="/matara-icon1.png"
               alt="Matara Logo"
               className="h-10 md:h-12 w-auto object-contain"
             />
@@ -1119,7 +1123,7 @@ function AppContent() {
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0 },
                     }}
-                    className="font-headline text-4xl lg:text-7xl font-black tracking-tighter text-on-surface leading-[1.1]">
+                    className="font-headline text-4xl lg:text-6xl font-black tracking-tighter text-on-surface leading-[1.1]">
                     Matara ($MARS): <br className="hidden sm:block" />
                     <span className="text-amber-400 text-glow">
                       The Token of Purpose
@@ -1325,7 +1329,7 @@ function AppContent() {
                   <div className="md:col-span-2 lg:col-span-2 glass-card p-6 md:p-10 group hover:bg-surface-container-highest transition-all">
                     <div className="flex flex-col sm:flex-row justify-between items-start gap-6 mb-8 md:mb-12">
                       <div>
-                        <h3 className="font-headline text-xl md:text-2xl font-bold text-white mb-2">
+                        <h3 className="font-headline text-xl md:text-2xl font-bold text-on-surface mb-2">
                           The Matara Mini-App
                         </h3>
                         <p className="text-on-surface-variant max-w-sm text-sm md:text-base">
@@ -1340,7 +1344,7 @@ function AppContent() {
                           Launch Bot <ExternalLink className="w-3 h-3" />
                         </a>
                       </div>
-                      <LayoutGrid className="w-8 h-8 md:w-10 md:h-10 text-white/30 group-hover:text-amber-400 transition-all shrink-0" />
+                      <LayoutGrid className="w-8 h-8 md:w-10 md:h-10 text-on-surface/30 group-hover:text-amber-400 transition-all shrink-0" />
                     </div>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
                       {[
@@ -1351,7 +1355,7 @@ function AppContent() {
                       ].map((item, i) => (
                         <li
                           key={i}
-                          className="flex items-center gap-3 text-xs md:text-sm font-bold uppercase tracking-wider text-zinc-300 hover:text-white transition-colors cursor-default">
+                          className="flex items-center gap-3 text-xs md:text-sm font-bold uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors cursor-default">
                           <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
                           {item}
                         </li>
@@ -1359,11 +1363,11 @@ function AppContent() {
                     </ul>
                   </div>
 
-                  <div className="glass-card p-6 md:p-10 group bg-zinc-800/10 border-zinc-700/20">
-                    <div className="mb-6 h-10 w-10 md:h-12 md:w-12 flex items-center justify-center bg-zinc-700 rounded-sm group-hover:rotate-12 transition-transform">
-                      <Lock className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <div className="glass-card p-6 md:p-10 group bg-surface-container-low border-on-surface/5">
+                    <div className="mb-6 h-10 w-10 md:h-12 md:w-12 flex items-center justify-center bg-surface-container-highest rounded-sm group-hover:rotate-12 transition-transform">
+                      <Lock className="w-5 h-5 md:w-6 md:h-6 text-on-surface" />
                     </div>
-                    <h3 className="font-headline text-xl md:text-2xl font-bold mb-4">
+                    <h3 className="font-headline text-xl md:text-2xl font-bold mb-4 text-on-surface">
                       Utility Unlocks
                     </h3>
                     <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed">
@@ -1372,8 +1376,8 @@ function AppContent() {
                     </p>
                   </div>
 
-                  <div className="glass-card p-6 md:p-10 group bg-surface-container-highest">
-                    <h3 className="font-headline text-lg md:text-xl font-bold mb-4 text-zinc-400 group-hover:text-white transition-colors">
+                  <div className="glass-card p-6 md:p-10 group bg-surface-container">
+                    <h3 className="font-headline text-lg md:text-xl font-bold mb-4 text-on-surface-variant group-hover:text-on-surface transition-colors">
                       Live Transaction Feed
                     </h3>
                     <div className="space-y-3 overflow-hidden h-40 relative">
@@ -1399,14 +1403,14 @@ function AppContent() {
                       ].map((tx, i) => (
                         <div
                           key={i}
-                          className="flex justify-between items-center text-[10px] font-mono p-2 bg-neutral-950 border-l border-amber-400 hover:bg-zinc-800 transition-colors">
+                          className="flex justify-between items-center text-[10px] font-mono p-2 bg-surface-container-low border-l border-amber-400 hover:bg-surface-container-high transition-colors">
                           <span className={tx.color}>
                             {tx.type}: {tx.amount}
                           </span>
-                          <span className="text-zinc-500">{tx.time}</span>
+                          <span className="text-on-surface-variant/60">{tx.time}</span>
                         </div>
                       ))}
-                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-surface-container-highest to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-surface-container to-transparent" />
                     </div>
                   </div>
 
@@ -1423,8 +1427,8 @@ function AppContent() {
                         height={600}
                       />
                     </div>
-                    <div className="flex-1 bg-neutral-950/80 p-6 md:p-8 backdrop-blur-md relative z-10 border border-white/5">
-                      <h3 className="font-headline text-xl md:text-2xl font-bold text-white mb-4">
+                    <div className="flex-1 bg-surface-container/80 p-6 md:p-8 backdrop-blur-md relative z-10 border border-on-surface/5">
+                      <h3 className="font-headline text-xl md:text-2xl font-bold text-on-surface mb-4">
                         Sovereign Governance
                       </h3>
                       <p className="text-on-surface-variant text-xs md:text-sm leading-relaxed">
