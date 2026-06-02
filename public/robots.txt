@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /?ref=
+Disallow: /*?*utm_
+
+Sitemap: https://www.matarakingdom.com/sitemap.xml
