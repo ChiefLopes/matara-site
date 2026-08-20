@@ -1723,16 +1723,6 @@ function AppContent() {
               </div>
             </section>
 
-            {/* Mascot Sentinel: Skate Lion */}
-            <SectionMascotFloat
-              image="/mascot/lion-skater.png"
-              title="Skate Sentinel"
-              subtitle="Moving with speed, agility, and shared conviction across the Marsverse."
-              badgeText="Agile Execution"
-              position="right"
-              quote="Speed and precision define our path on Binance Smart Chain."
-            />
-
             {/* Ecosystem Section */}
             <section className="py-20 md:py-32 bg-surface relative overflow-hidden">
               <div className="graffiti-street-bg" />
@@ -1864,16 +1854,6 @@ function AppContent() {
 
             {/* Marsverse App Showcase Section */}
             <MarsverseAppShowcase links={LINKS} />
-
-            {/* Mascot Sentinel: Leap Lion */}
-            <SectionMascotFloat
-              image="/mascot/lion-leap.png"
-              title="Leap of Conviction"
-              subtitle="690 Billion $MARS fixed supply forged for long-term architectural intent."
-              badgeText="690B Fixed Supply"
-              position="left"
-              quote="We do not build for the next hour; we build for the next age."
-            />
 
             {/* Calculator & Swap Section */}
             <section className="py-20 md:py-32 bg-surface-container-low relative overflow-hidden">
