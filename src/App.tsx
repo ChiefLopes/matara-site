@@ -1982,7 +1982,7 @@ function AppContent() {
                       opacity: lionOpacity,
                     }}
                     className="relative z-10 w-full flex justify-center">
-                    <div className="p-2 flex items-center justify-center group max-w-[390px] sm:max-w-[530px] md:max-w-[670px] lg:max-w-[780px] xl:max-w-[870px] mx-auto relative">
+                    <div className="p-0 flex items-center justify-center group max-w-[390px] sm:max-w-[530px] md:max-w-[670px] lg:max-w-[780px] xl:max-w-[870px] mx-auto relative">
                       <img
                         src="/mascot/hero-lion-transparent.png"
                         alt="Matara Sovereign Lion Warrior Mascot"
@@ -1996,7 +1996,7 @@ function AppContent() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.8 }}
-                    className="glass-card p-4 px-6 border-white/10 shadow-2xl backdrop-blur-2xl mt-4 relative z-20 min-w-[240px] text-center border-amber-400/20">
+                    className="glass-card p-3.5 px-6 border-white/10 shadow-2xl backdrop-blur-2xl -mt-6 sm:-mt-8 relative z-20 min-w-[240px] text-center border-amber-400/20">
                     <div className="text-[9px] text-zinc-400 uppercase tracking-widest mb-0.5 font-bold">
                       Fixed Initial Supply
                     </div>
