@@ -9,6 +9,7 @@ import {
   useTransform,
   useSpring,
   useInView,
+  useMotionValue,
   AnimatePresence,
 } from "framer-motion";
 import {
@@ -326,6 +327,213 @@ const TransactionLog = ({ isDarkMode }: { isDarkMode: boolean }) => {
   );
 };
 
+const GooglePlayIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path fill="#EA4335" d="M3.609 1.814L13.792 12 3.61 22.186A2.372 2.372 0 0 1 3 20.573V3.427c0-.667.217-1.282.609-1.613z" />
+    <path fill="#FBBC04" d="M17.433 8.359l-3.641 3.641 3.641 3.641 4.148-2.37a2.38 2.38 0 0 0 0-4.542l-4.148-2.37z" />
+    <path fill="#4285F4" d="M3.609 1.814A2.366 2.366 0 0 1 5.344 1.14c.732 0 1.433.332 1.895.597l10.194 5.827-3.641 3.641L3.609 1.814z" />
+    <path fill="#34A853" d="M13.792 12l3.641 3.641-10.194 5.827c-.462.265-1.163.597-1.895.597a2.366 2.366 0 0 1-1.735-.674L13.792 12z" />
+  </svg>
+);
+
+const AppleAppStoreIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.32c.66-.8 1.11-1.92.99-3.04-.96.04-2.13.64-2.82 1.44-.61.71-1.15 1.86-1 2.97 1.08.08 2.17-.57 2.83-1.37z" />
+  </svg>
+);
+
+const BnbLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path fill="#F3BA2F" d="M16 0l4.7 4.7-9.4 9.4L6.6 9.4 16 0zm9.4 9.4l4.7 4.7-4.7 4.7-4.7-4.7 4.7-4.7zM6.6 9.4L11.3 14.1l-4.7 4.7-4.7-4.7 4.7-4.7zM16 18.8l4.7-4.7 4.7 4.7L16 28.2l-9.4-9.4 4.7-4.7 4.7 4.7z"/>
+    <path fill="#F3BA2F" d="M16 8.5l2.4 2.4-2.4 2.4-2.4-2.4L16 8.5z"/>
+  </svg>
+);
+
+const MarsverseAppShowcase = ({ links }: { links: any }) => {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const screens = [
+    {
+      id: "home",
+      title: "Portfolio & Home",
+      subtitle: "Galactic Dashboard & Token Balances",
+      description: "Track your total asset portfolio, claim active campaign tasks, view recent activities, and manage your account seamlessly.",
+      image: "/marsverse-app/home.png",
+      tag: "Main Dashboard",
+    },
+    {
+      id: "details",
+      title: "Token Details & Analytics",
+      subtitle: "Live BSC Price Chart & Liquidity Data",
+      description: "View live $MARS token price ($0.000000064), 24h interactive price chart, trading volume, liquidity pool ($15.63K), FDV, and verified contract details.",
+      image: "/marsverse-app/token-details.png",
+      tag: "Price & Analytics",
+    },
+    {
+      id: "swap",
+      title: "DEX Token Swap Engine",
+      subtitle: "Instant SNR to $MARS Exchange",
+      description: "Seamless decentralized token swapping with automated gas estimation and instant refund protection on Binance Smart Chain (BEP-20).",
+      image: "/marsverse-app/swap.png",
+      tag: "Instant Swap",
+    },
+    {
+      id: "campaigns",
+      title: "Campaign & Task Rewards",
+      subtitle: "Earn $SNR Through Pride Tasks",
+      description: "Participate in active community campaigns (e.g. Wikicat to $1 campaign), complete content creation & social tasks to earn $SNR rewards in real time.",
+      image: "/marsverse-app/campaign-tasks.png",
+      tag: "Task Rewards",
+    },
+    {
+      id: "brand-partner",
+      title: "Brand Partner Portal",
+      subtitle: "Create & Fund Growth Campaigns",
+      description: "Brand partners can create custom marketing campaigns, set reward budgets, track completion analytics, and reach thousands of active Marsverse users.",
+      image: "/marsverse-app/brand-partner.png",
+      tag: "Brand Platform",
+    },
+  ];
+
+  return (
+    <section id="marsverse-app" className="py-20 md:py-32 bg-surface-container-low relative overflow-hidden">
+      <div className="graffiti-street-bg" />
+      <div className="container mx-auto px-6 relative z-10">
+        <SectionHeading
+          subtitle="Native Mobile Experience"
+          title="The Marsverse Mobile App"
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Information & Controls */}
+          <div className="lg:col-span-6 space-y-8">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-400/10 border border-amber-400/20 rounded-full text-amber-400 text-xs font-bold uppercase tracking-widest">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                Playstore & Appstore (Coming Soon)
+              </div>
+              <h3 className="font-headline text-3xl md:text-5xl font-black uppercase tracking-tight text-white leading-tight">
+                {screens[activeTab].title}
+              </h3>
+              <p className="text-amber-400 font-mono text-sm uppercase tracking-wider font-bold">
+                {screens[activeTab].subtitle}
+              </p>
+              <p className="text-zinc-400 text-base leading-relaxed">
+                {screens[activeTab].description}
+              </p>
+            </div>
+
+            {/* Interactive Screen Selector Tabs */}
+            <div className="space-y-2.5">
+              {screens.map((screen, idx) => (
+                <button
+                  key={screen.id}
+                  onClick={() => setActiveTab(idx)}
+                  className={`w-full text-left p-4 rounded-xl transition-all flex items-center justify-between group border ${
+                    activeTab === idx
+                      ? "bg-amber-400/10 border-amber-400/40 text-white shadow-lg shadow-amber-400/5"
+                      : "bg-surface-container/50 border-white/5 text-zinc-400 hover:bg-white/5 hover:border-white/10"
+                  }`}>
+                  <div className="flex items-center gap-3">
+                    <span className={`w-2 h-2 rounded-full ${activeTab === idx ? "bg-amber-400" : "bg-zinc-600"}`} />
+                    <div>
+                      <div className="font-bold text-sm uppercase tracking-tight">
+                        {screen.title}
+                      </div>
+                      <div className="text-[10px] text-zinc-500 font-mono">
+                        {screen.tag}
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className={`w-5 h-5 transition-transform ${activeTab === idx ? "text-amber-400 translate-x-1" : "text-zinc-600 group-hover:text-zinc-400"}`} />
+                </button>
+              ))}
+            </div>
+
+            {/* Store Downloads Section */}
+            <div className="pt-6 border-t border-white/10">
+              <div className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
+                <Rocket className="w-4 h-4 text-amber-400" /> App Availability Status
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                {/* Google Play Store Badge */}
+                <div className="p-3.5 px-5 rounded-xl bg-surface-container border border-white/10 flex items-center gap-3 relative overflow-hidden group">
+                  <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+                    <GooglePlayIcon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
+                      Google Play Store
+                    </div>
+                    <div className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                      Coming Soon <span className="px-1.5 py-0.5 text-[9px] bg-amber-400/20 text-amber-300 rounded font-mono">In Review</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Apple App Store Badge */}
+                <div className="p-3.5 px-5 rounded-xl bg-surface-container border border-white/10 flex items-center gap-3 relative overflow-hidden group">
+                  <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+                    <AppleAppStoreIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
+                      Apple App Store
+                    </div>
+                    <div className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                      Coming Soon <span className="px-1.5 py-0.5 text-[9px] bg-amber-400/20 text-amber-300 rounded font-mono">In Review</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Telegram Bot Badge */}
+                <a
+                  href={links.ECOSYSTEM_BOT}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3.5 px-5 rounded-xl bg-amber-400 text-black font-bold flex items-center gap-3 hover:bg-amber-300 transition-all hover:scale-105">
+                  <Send className="w-5 h-5" />
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest opacity-80">
+                      Telegram Bot
+                    </div>
+                    <div className="text-xs uppercase tracking-wider flex items-center gap-1">
+                      Launch Bot Live <ExternalLink className="w-3 h-3" />
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Phone Device Mockup Frame */}
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="relative w-full max-w-[320px] md:max-w-[360px]">
+              <div className="relative rounded-[40px] border-[8px] border-zinc-800 bg-neutral-950 p-2 shadow-2xl shadow-amber-400/10 overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-5 w-32 bg-zinc-800 rounded-b-xl z-30 flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-black/80" />
+                </div>
+                <div className="relative aspect-[9/19.5] w-full rounded-[30px] overflow-hidden bg-black">
+                  <motion.img
+                    key={screens[activeTab].id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    src={screens[activeTab].image}
+                    alt={screens[activeTab].title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 interface FAQItemProps {
   question: string;
   answer: string;
@@ -367,64 +575,110 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
 
 const blogPosts = [
   {
-    title: "The Rise of the Marsverse",
-    excerpt:
-      "Exploring the vision behind Matara and how we're building a sovereign ecosystem on BSC.",
-    date: "Mar 28, 2024",
-    image: "https://picsum.photos/seed/mars1/800/600",
+    id: 1,
+    title: "A LETTER TO MATARIA",
+    subtitle: "The Token of Hope",
+    excerpt: "A message from the First Lion of Matara to the Matarian community. We stand as a beacon of architectural intent and purpose in Web3.",
+    date: "Oct 2025",
+    author: "First Lion of Matara",
+    readTime: "4 min read",
+    image: "/blog/letter-to-mataria.jpg",
+    category: "Manifesto",
+    url: "https://medium.com/@mataratoken/a-letter-to-mataria-6a0befc5884c?sharedUserId=mataratoken",
+    content: "Our roadmap is not just a plan; it's a declaration of our intent to dominate the decentralized finance space. In an era where the digital landscape is littered with hollow promises and fleeting noise, Matara stands as a beacon of architectural intent. Every transaction is a heartbeat, every holder is a warrior.",
+  },
+  {
+    id: 2,
+    title: "Marsverse Is Leaving Telegram: Here's What That Means For Every Martian",
+    subtitle: "Ecosystem Evolution",
+    excerpt: "We are scaling beyond Telegram into our own dedicated native mobile app experience for iOS & Android. Here is how your rewards and tasks transition seamlessly.",
+    date: "Jun 2025",
+    author: "Matara Core Devs",
+    readTime: "6 min read",
+    image: "/blog/marsverse-leaving-telegram.jpg",
     category: "Ecosystem",
+    url: "https://medium.com/@mataratoken/marsverse-is-leaving-telegram-heres-what-that-means-for-every-martian-cb89bfc512cb?sharedUserId=mataratoken",
+    content: "Transitioning to a sovereign mobile application marks a pivotal milestone for the Marsverse. By leaving Telegram dependency behind, we unlock full native push notifications, secure local key storage, seamless DEX swaps, and enhanced campaign tools for brand partners.",
   },
   {
-    title: "Tokenomics Deep Dive",
-    excerpt:
-      "Understanding the $WKC reflection mechanism and how it benefits long-term $MARS holders.",
-    date: "Mar 25, 2024",
-    image: "https://picsum.photos/seed/mars2/800/600",
-    category: "Education",
+    id: 3,
+    title: "MATARA’s MARSVERSE: How Hope, Faith, and Action is Creating Real Rewards",
+    subtitle: "Value Redistribution",
+    excerpt: "How the combination of vision, active community task completion, and decentralized token economics generates real, verifiable passive rewards.",
+    date: "Jul 2025",
+    author: "Matara Research",
+    readTime: "5 min read",
+    image: "/blog/hope-faith-rewards.jpg",
+    category: "Rewards",
+    url: "https://medium.com/@mataratoken/mataras-marsverse-how-hope-faith-and-action-is-creating-real-rewards-f4fef16d9f63?sharedUserId=mataratoken",
+    content: "True token utility is not measured in hype, but in real value redistribution to holders. Matara's reflection mechanism and task reward pools incentivize real community participation, converting engagement into tangible $WKC and $SNR rewards.",
   },
   {
-    title: "Community Governance Launch",
-    excerpt:
-      "How the Pride will shape the future of Matara through our upcoming DAO structure.",
-    date: "Mar 20, 2024",
-    image: "https://picsum.photos/seed/mars3/800/600",
-    category: "Governance",
+    id: 4,
+    title: "Freedom, Hope, and Crypto: What Matara Teaches Us About Web3",
+    subtitle: "Web3 Philosophy",
+    excerpt: "Cryptocurrency was founded on the promise of financial freedom. Matara embodies this principle through locked liquidity and unyielding purpose.",
+    date: "Aug 2025",
+    author: "Captain Matara",
+    readTime: "7 min read",
+    image: "/blog/freedom-hope-crypto.jpg",
+    category: "Philosophy",
+    url: "https://medium.com/@mataratoken/freedom-hope-and-crypto-what-matara-teaches-us-about-web3-9bcbbe8e766a?sharedUserId=mataratoken",
+    content: "What does financial freedom mean in the era of decentralized finance? We examine how community-owned liquidity, verified smart contracts, and sovereign governance restore trust to Web3 and pave the way for sustainable wealth building.",
   },
 ];
 
 const BlogCard = ({ post, onClick }: any) => (
   <motion.div
-    whileHover={{ y: -10 }}
-    onClick={onClick}
-    className="glass-card overflow-hidden group cursor-pointer">
-    <div className="relative h-48 overflow-hidden">
-      <motion.img
-        src={post.image}
-        alt={post.title}
-        whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.5 }}
-        className="w-full h-full object-cover"
-        referrerPolicy="no-referrer"
-        loading="lazy"
-        decoding="async"
-        width={800}
-        height={600}
-      />
-      <div className="absolute top-4 left-4 px-3 py-1 bg-amber-400 text-black text-[8px] font-black uppercase tracking-widest">
-        {post.category}
+    whileHover={{ y: -8 }}
+    className="glass-card overflow-hidden group flex flex-col justify-between border-white/10 hover:border-amber-400/40 transition-all duration-300">
+    <div>
+      <div className="relative h-48 overflow-hidden cursor-pointer" onClick={onClick}>
+        <motion.img
+          src={post.image}
+          alt={post.title}
+          whileHover={{ scale: 1.08 }}
+          transition={{ duration: 0.5 }}
+          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+          loading="lazy"
+          decoding="async"
+          width={800}
+          height={600}
+        />
+        <div className="absolute top-4 left-4 px-3 py-1 bg-amber-400 text-black text-[8px] font-black uppercase tracking-widest rounded-xs shadow-md">
+          {post.category}
+        </div>
+      </div>
+      <div className="p-6 space-y-3">
+        <div className="flex items-center justify-between text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+          <span>{post.date}</span>
+          <span>{post.readTime}</span>
+        </div>
+        <h3
+          onClick={onClick}
+          className="font-headline text-lg font-black uppercase tracking-tight group-hover:text-amber-400 transition-colors cursor-pointer line-clamp-2 leading-snug">
+          {post.title}
+        </h3>
+        <p className="text-zinc-400 text-xs line-clamp-3 leading-relaxed">
+          {post.excerpt}
+        </p>
       </div>
     </div>
-    <div className="p-6 space-y-4">
-      <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-        {post.date}
-      </div>
-      <h3 className="font-headline text-xl font-black uppercase tracking-tight group-hover:text-amber-400 transition-colors">
-        {post.title}
-      </h3>
-      <p className="text-zinc-400 text-sm line-clamp-2">{post.excerpt}</p>
-      <div className="flex items-center gap-2 text-amber-400 text-[10px] font-bold uppercase tracking-widest pt-2">
-        Read Intel <ChevronRight className="w-3 h-3" />
-      </div>
+    <div className="p-6 pt-0 flex items-center justify-between gap-2 border-t border-white/5 mt-4">
+      <button
+        onClick={onClick}
+        className="text-zinc-400 hover:text-amber-400 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 transition-colors">
+        Read Preview <ChevronRight className="w-3 h-3" />
+      </button>
+      <a
+        href={post.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className="text-amber-400 hover:text-amber-300 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20 hover:bg-amber-400/20 transition-all">
+        Medium <ExternalLink className="w-3 h-3" />
+      </a>
     </div>
   </motion.div>
 );
@@ -434,7 +688,7 @@ const BlogPostView = ({ post, onBack }: any) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
-    className="min-h-screen pt-32 pb-20 bg-background">
+    className="min-h-screen pt-32 pb-20 bg-background relative z-20">
     <div className="container mx-auto px-6 max-w-4xl">
       <button
         onClick={onBack}
@@ -444,18 +698,24 @@ const BlogPostView = ({ post, onBack }: any) => (
 
       <div className="space-y-8">
         <div className="space-y-4">
-          <div className="px-3 py-1 bg-amber-400 text-black text-[10px] font-black uppercase tracking-widest inline-block">
-            {post.category}
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 bg-amber-400 text-black text-[10px] font-black uppercase tracking-widest inline-block rounded-xs">
+              {post.category}
+            </span>
+            <span className="text-zinc-500 font-mono text-xs font-bold uppercase tracking-widest">
+              By {post.author}
+            </span>
           </div>
-          <h1 className="font-headline text-4xl md:text-6xl font-black uppercase tracking-tight leading-none">
+
+          <h1 className="font-headline text-3xl md:text-5xl font-black uppercase tracking-tight leading-tight text-white">
             {post.title}
           </h1>
           <div className="text-zinc-500 font-bold uppercase tracking-widest text-xs">
-            Published on {post.date} • 5 min read
+            Published on {post.date} • {post.readTime}
           </div>
         </div>
 
-        <div className="aspect-video w-full overflow-hidden rounded-sm border border-white/10">
+        <div className="aspect-video w-full overflow-hidden rounded-xl border border-white/10 shadow-2xl">
           <img
             src={post.image}
             alt={post.title}
@@ -469,50 +729,30 @@ const BlogPostView = ({ post, onBack }: any) => (
         </div>
 
         <div className="prose prose-invert max-w-none">
-          <p className="text-xl text-zinc-300 leading-relaxed font-medium italic border-l-4 border-amber-400 pl-6 py-2">
+          <p className="text-lg md:text-xl text-zinc-300 leading-relaxed font-medium italic border-l-4 border-amber-400 pl-6 py-2 bg-amber-400/5 rounded-r-lg">
             {post.excerpt}
           </p>
 
-          <div className="space-y-6 text-zinc-400 leading-relaxed text-lg pt-8">
+          <div className="space-y-6 text-zinc-400 leading-relaxed text-base md:text-lg pt-6">
+            <p>{post.content}</p>
             <p>
-              In the vast expanse of the crypto galaxy, Matara stands as a
-              beacon of sovereignty and strength. As we continue our mission to
-              establish the Marsverse, every milestone achieved is a testament
-              to the unwavering spirit of the Pride.
-            </p>
-            <p>
-              The journey ahead is filled with challenges, but with our
-              community governance structure and the power of $MARS, we are
-              equipped to overcome any obstacle. Our commitment to transparency
-              and security remains our top priority as we scale the ecosystem.
-            </p>
-            <h3 className="text-white font-headline text-2xl font-black uppercase pt-4">
-              Strategic Expansion
-            </h3>
-            <p>
-              Our roadmap is not just a plan; it's a declaration of our intent
-              to dominate the decentralized finance space. From Tier-1 CEX
-              listings to the launch of the Marsverse sovereignty, every step is
-              calculated for maximum impact.
-            </p>
-            <p>
-              Stay tuned for more updates from the Intel Center. The roar of the
-              Pride is only getting louder.
+              In the vast expanse of the crypto galaxy, Matara stands as a beacon of sovereignty and strength. Every milestone achieved is a testament to the unwavering conviction of our Pride.
             </p>
           </div>
         </div>
 
         <div className="pt-12 border-t border-white/10 flex flex-wrap gap-4 items-center justify-between">
-          <div className="flex gap-4">
-            <button className="p-3 bg-white/5 hover:bg-white/10 rounded-full transition-colors">
-              <Share2 className="w-5 h-5 text-amber-400" />
-            </button>
-            <button className="p-3 bg-white/5 hover:bg-white/10 rounded-full transition-colors">
-              <MessageSquare className="w-5 h-5 text-amber-400" />
-            </button>
-          </div>
-          <button className="px-8 py-4 bg-amber-400 text-black font-black uppercase tracking-widest text-xs hover:bg-amber-300 transition-all">
-            Join the Discussion
+          <a
+            href={post.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-web3 solar-flare-gradient text-black px-8 py-4 font-headline font-bold tracking-widest uppercase rounded-sm hover:shadow-lg hover:shadow-amber-400/20 transition-all flex items-center gap-2 text-xs font-black">
+            Read Full Article on Medium <ExternalLink className="w-4 h-4" />
+          </a>
+          <button
+            onClick={onBack}
+            className="px-6 py-4 bg-white/5 text-zinc-300 font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all rounded-sm border border-white/10">
+            Back to Chronicles
           </button>
         </div>
       </div>
@@ -689,6 +929,179 @@ export default function App() {
   );
 }
 
+const GoldenBlueCursorGlow = () => {
+  const mouseX = useMotionValue(-500);
+  const mouseY = useMotionValue(-500);
+
+  const springConfig = { damping: 25, stiffness: 250 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
+      <motion.div
+        className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px]"
+        style={{
+          x: smoothX,
+          y: smoothY,
+          width: 450,
+          height: 450,
+          background:
+            "radial-gradient(circle, rgba(251, 191, 36, 0.14) 0%, rgba(59, 130, 246, 0.10) 45%, rgba(15, 23, 42, 0) 70%)",
+        }}
+      />
+    </motion.div>
+  );
+};
+
+interface SectionMascotFloatProps {
+  image: string;
+  title: string;
+  subtitle: string;
+  badgeText: string;
+  position?: "left" | "right" | "center";
+  quote?: string;
+}
+
+const SectionMascotFloat = ({
+  image,
+  title,
+  subtitle,
+  badgeText,
+  position = "right",
+  quote,
+}: SectionMascotFloatProps) => {
+  return (
+    <div className="relative py-10 md:py-14 overflow-hidden z-20 pointer-events-none">
+      <div className="container mx-auto px-6 relative flex justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className={`pointer-events-auto relative flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-5 rounded-2xl glass-card border border-amber-400/30 bg-neutral-950/85 backdrop-blur-2xl shadow-2xl shadow-amber-400/10 max-w-2xl golden-blue-glow-hover ${
+            position === "left" ? "md:mr-auto" : position === "right" ? "md:ml-auto" : "mx-auto"
+          }`}>
+          {/* Transparent Floating Mascot Cutout */}
+          <div className="relative shrink-0 w-36 h-48 sm:w-44 sm:h-56 flex items-center justify-center">
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+                rotate: [0, 2, 0, -2, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="w-full h-full flex items-center justify-center">
+              <img
+                src={image}
+                alt={title}
+                className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(251,191,36,0.3)] hover:scale-110 transition-transform duration-500"
+              />
+            </motion.div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center shrink-0">
+              <span className="px-2.5 py-0.5 bg-amber-400 text-black text-[9px] font-black uppercase tracking-wider rounded-xs shadow-lg whitespace-nowrap">
+                {badgeText}
+              </span>
+            </div>
+          </div>
+
+          {/* Mascot Info & Quote */}
+          <div className="space-y-2 text-center sm:text-left">
+            <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-amber-400">
+              <Sparkles className="w-3.5 h-3.5" /> Lion Warrior Sentinel
+            </div>
+            <h4 className="font-headline text-lg sm:text-xl font-black uppercase tracking-tight text-white">
+              {title}
+            </h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              {subtitle}
+            </p>
+            {quote && (
+              <div className="pt-2 text-xs italic text-amber-300/90 border-t border-white/10 font-mono">
+                "{quote}"
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+const InteractiveMascotSidekick = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const quotes = [
+    "Welcome, Martian! The Pride moves with architectural intent.",
+    "Every transaction is a heartbeat on Binance Smart Chain.",
+    "Hold tight to your $MARS assets. Sovereignty is coming!",
+    "Marstats and Marsverse are sovereign products of Matara.",
+  ];
+
+  const [quoteIndex, setQuoteIndex] = useState(0);
+
+  const cycleQuote = () => {
+    setQuoteIndex((prev) => (prev + 1) % quotes.length);
+    setIsOpen(true);
+  };
+
+  return (
+    <div className="fixed bottom-6 left-6 z-40 flex items-end gap-3 pointer-events-auto">
+      <motion.button
+        onClick={cycleQuote}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label="Lion Mascot Sidekick"
+        className="relative w-14 h-14 rounded-full border-2 border-amber-400/60 bg-neutral-950 p-0.5 shadow-xl shadow-amber-400/20 overflow-hidden group">
+        <img
+          src="/mascot/lion-flex.png"
+          alt="Matara Lion Sidekick"
+          className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_4px_12px_rgba(251,191,36,0.4)] group-hover:scale-110 transition-transform"
+        />
+        <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-black animate-ping" />
+        <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-black" />
+      </motion.button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: -10, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -10, scale: 0.9 }}
+            className="glass-card p-3 rounded-xl border-amber-400/30 bg-neutral-950/90 text-xs text-zinc-300 max-w-xs shadow-2xl relative">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-1.5 right-1.5 text-zinc-500 hover:text-white text-[10px]">
+              ✕
+            </button>
+            <div className="font-bold text-amber-400 text-[10px] uppercase tracking-widest mb-1 flex items-center gap-1">
+              <Sparkles className="w-3 h-3" /> Lion Sentinel Intel
+            </div>
+            <p className="italic text-white text-[11px] leading-snug">
+              "{quotes[quoteIndex]}"
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 function AppContent() {
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -785,6 +1198,7 @@ function AppContent() {
     STORY: "https://matara-token.gitbook.io/matara-token/",
     ECOSYSTEM_BOT: "https://t.me/MataraComBot?start=rnUtTwgN",
     PANCAKESWAP: `https://pancakeswap.finance/swap?outputCurrency=0x6844B2e9afB002d188A072A3ef0FBb068650F214`,
+    MARSTATS: "https://marstats.xyz",
   };
 
   const [copied, setCopied] = useState(false);
@@ -932,7 +1346,9 @@ function AppContent() {
   const navItems = ["Story", "Tokenomics", "Roadmap", "Blog", "FAQ"];
 
   return (
-    <div className="min-h-screen bg-background selection:bg-amber-400 selection:text-black">
+    <div className="min-h-screen bg-background selection:bg-amber-400 selection:text-black relative">
+      <GoldenBlueCursorGlow />
+      <InteractiveMascotSidekick />
       <AnimatePresence>
         {initialLoading && <LoadingScreen key="loader" />}
       </AnimatePresence>
@@ -961,98 +1377,42 @@ function AppContent() {
                 Open in New Tab
               </button>
             )}
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="font-headline font-bold tracking-tight uppercase text-zinc-400 hover:text-amber-400 transition-colors text-sm">
-                {item}
-              </a>
-            ))}
-            <div className="h-4 w-px bg-white/10 mx-2" />
-            <ConnectButton.Custom>
-              {({
-                account,
-                chain,
-                openAccountModal,
-                openChainModal,
-                openConnectModal,
-                mounted,
-              }) => {
-                const ready = mounted;
-                const connected = ready && account && chain;
+            {navItems.map((item) => {
+              if (item === "Marstats") {
                 return (
-                  <div
-                    {...(!ready && {
-                      "aria-hidden": true,
-                      style: {
-                        opacity: 0,
-                        pointerEvents: "none",
-                        userSelect: "none",
-                      },
-                    })}>
-                    {(() => {
-                      if (!connected) {
-                        return (
-                          <button
-                            onClick={openConnectModal}
-                            className="text-[10px] font-bold uppercase tracking-widest bg-amber-400 text-black px-4 py-2 rounded-sm hover:bg-amber-300 transition-all">
-                            Connect Wallet
-                          </button>
-                        );
-                      }
-                      if (chain.unsupported) {
-                        return (
-                          <button
-                            onClick={openChainModal}
-                            className="text-[10px] font-bold uppercase tracking-widest bg-red-500 text-white px-4 py-2 rounded-sm">
-                            Wrong Network
-                          </button>
-                        );
-                      }
-                      return (
-                        <div className="flex gap-2">
-                          <button
-                            onClick={openAccountModal}
-                            className="text-[10px] font-bold uppercase tracking-widest bg-white/5 text-white px-4 py-2 rounded-sm border border-white/10 hover:bg-white/10 transition-all">
-                            {account.displayName}
-                          </button>
-                        </div>
-                      );
-                    })()}
-                  </div>
+                  <a
+                    key={item}
+                    href={LINKS.MARSTATS}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-headline font-bold tracking-tight uppercase text-amber-400 hover:text-amber-300 transition-colors text-sm flex items-center gap-1">
+                    Marstats <ExternalLink className="w-3 h-3" />
+                  </a>
                 );
-              }}
-            </ConnectButton.Custom>
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-amber-400"
-              title={
-                isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"
-              }>
-              {isDarkMode ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
+              }
+              return (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="font-headline font-bold tracking-tight uppercase text-zinc-400 hover:text-amber-400 transition-colors text-sm">
+                  {item}
+                </a>
+              );
+            })}
+            <div className="h-4 w-px bg-white/10 mx-2" />
+            <a
+              href={LINKS.PANCAKESWAP}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-bold uppercase tracking-widest bg-amber-400 text-black px-4 py-2 rounded-sm hover:bg-amber-300 transition-all flex items-center gap-1.5 shadow-lg shadow-amber-400/20">
+              Buy $MARS <ExternalLink className="w-3 h-3" />
+            </a>
           </div>
 
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="md:hidden p-1 rounded-full bg-white/5 text-amber-400"
-              title={
-                isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"
-              }>
-              {isDarkMode ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
-            <button
               className="md:hidden text-amber-400 p-1 flex items-center gap-2"
+              aria-label="Toggle Mobile Menu"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -1071,17 +1431,40 @@ function AppContent() {
               ? { height: "auto", opacity: 1 }
               : { height: 0, opacity: 0 }
           }
-          className="md:hidden overflow-hidden bg-neutral-950 border-b border-white/5">
-          <div className="container mx-auto px-6 py-8 flex flex-col gap-6">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="font-headline font-bold tracking-tight uppercase text-zinc-400 hover:text-amber-400 transition-colors text-lg">
-                {item}
-              </a>
-            ))}
+          className="md:hidden overflow-hidden bg-neutral-950/95 backdrop-blur-2xl border-b border-white/10">
+          <div className="container mx-auto px-6 py-6 flex flex-col gap-5">
+            {navItems.map((item) => {
+              if (item === "Marstats") {
+                return (
+                  <a
+                    key={item}
+                    href={LINKS.MARSTATS}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-headline font-bold tracking-tight uppercase text-amber-400 hover:text-amber-300 transition-colors text-lg flex items-center gap-2">
+                    Marstats <ExternalLink className="w-4 h-4" />
+                  </a>
+                );
+              }
+              return (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-headline font-bold tracking-tight uppercase text-zinc-400 hover:text-amber-400 transition-colors text-lg">
+                  {item}
+                </a>
+              );
+            })}
+            <a
+              href={LINKS.PANCAKESWAP}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full text-center text-xs font-bold uppercase tracking-widest bg-amber-400 text-black py-3 rounded-sm hover:bg-amber-300 transition-all flex items-center justify-center gap-2 mt-2 shadow-lg shadow-amber-400/20">
+              Buy $MARS on PancakeSwap <ExternalLink className="w-4 h-4" />
+            </a>
           </div>
         </motion.div>
       </nav>
@@ -1099,13 +1482,18 @@ function AppContent() {
             key="main-content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}>
+            exit={{ opacity: 0 }}
+            className="relative">
+            {/* Full-Website Continuous Matara Kingdom & Lion Graffiti Overlay */}
+            <div className="graffiti-bg-fixed" />
+
             {/* Hero Section */}
             <section
               ref={heroRef}
               className="relative min-h-screen flex items-center pt-24 md:pt-0 overflow-hidden mesh-gradient">
               {/* Background Elements */}
               <div className="absolute inset-0 cyber-grid opacity-30" />
+              <div className="hero-graffiti-bg" />
               <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-amber-400/10 rounded-full blur-[120px] animate-pulse-glow" />
               <div
                 className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] animate-pulse-glow"
@@ -1200,15 +1588,15 @@ function AppContent() {
                       opacity: lionOpacity,
                     }}
                     className="relative z-10">
-                    <div className="glass-card p-1.5 rounded-xl border-white/10 shadow-2xl overflow-hidden group max-w-md mx-auto">
-                      <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV7o7fU6dfo9Cro-BbQqA-g_FUdXeYDMijr0WL5-L_nNXiOd3M5jMKNYG4B2aOonyDKgvHj5VYLloEOb4GZAe07f4xKnqgsfMxSeEC-UcVbTdU_xskivYf91tlVwupaXxS9DffEczRQ7a6ABQuvNMMkazzbipZlU4UKYW0Zm9oPW3LsT1GTZRTlVFLnLmEtrjZLtfz9K1sVNddJHzN77q-yTuab7o4Qc5XK1MSjxkIaOEgm4sxfzLOPr4sl_RDZB1adQ2_VWB_VFrx"
-                        alt="Matara Lion Warrior"
-                        className="w-full h-auto rounded-lg grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
+                      <div className="p-2 flex items-center justify-center group max-w-md lg:max-w-[540px] xl:max-w-[580px] mx-auto relative">
+                        <div className="absolute inset-0 bg-amber-400/15 rounded-full blur-[90px] animate-pulse-glow" />
+                        <img
+                          src="/mascot/hero-lion-transparent.png"
+                          alt="Matara Sovereign Lion Warrior Mascot"
+                          className="w-full h-auto max-h-[520px] lg:max-h-[624px] xl:max-h-[660px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.4)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
+                        />
+                      </div>
+                    </motion.div>
 
                     {/* Floating Stats Card */}
                     <motion.div
@@ -1233,8 +1621,7 @@ function AppContent() {
                       </div>
                     </motion.div>
                   </motion.div>
-                </motion.div>
-              </div>
+                </div>
 
               {/* Scroll Indicator */}
               <motion.div
@@ -1252,8 +1639,9 @@ function AppContent() {
             {/* Story Section */}
             <section
               id="story"
-              className="py-20 md:py-32 bg-surface-container-low overflow-hidden">
-              <div className="container mx-auto px-6">
+              className="py-20 md:py-32 bg-surface-container-low relative overflow-hidden">
+              <div className="graffiti-warrior-bg" />
+              <div className="container mx-auto px-6 relative z-10">
                 <div className="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
@@ -1261,10 +1649,9 @@ function AppContent() {
                     viewport={{ once: true }}
                     className="md:col-span-5 relative">
                     <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdDa6I_PT82oJXJwyeDqW5RN8WE28ZOCn6NdunELYhSfN15Hku_uodkYLAb_a8KG6-Zt3ExYDoMEdHGN9Z3-gMt9JVe2qRjxbE8qOQOoVYY10IGXeCwD94WNYxsRnMOAMj9h5T5bO9ixiB6etacaEzm7vL972HmQOcen_KOA-6xghe5KViWPCcjwrKV5MIrt1SkTY5DWJFlueH1JjFCiZY2SEOCR6XLZdT_MZfBoqvsazDUpUUsEpjUtomgURpK78JxVfUHgDpLWuz"
-                      alt="The Monolith"
-                      className="w-full aspect-square object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700"
-                      referrerPolicy="no-referrer"
+                      src="/mascot/lion-sword.png"
+                      alt="The Lion Warrior Mascot"
+                      className="w-full aspect-square object-contain filter drop-shadow-[0_20px_40px_rgba(251,191,36,0.35)] transition-all duration-700 hover:scale-105"
                       loading="lazy"
                       decoding="async"
                       width={600}
@@ -1318,7 +1705,8 @@ function AppContent() {
             </section>
 
             {/* Ecosystem Section */}
-            <section className="py-20 md:py-32 bg-surface relative">
+            <section className="py-20 md:py-32 bg-surface relative overflow-hidden">
+              <div className="graffiti-street-bg" />
               <div className="container mx-auto px-6 relative z-10">
                 <SectionHeading
                   subtitle="Utility Engine"
@@ -1445,9 +1833,13 @@ function AppContent() {
               </div>
             </section>
 
+            {/* Marsverse App Showcase Section */}
+            <MarsverseAppShowcase links={LINKS} />
+
             {/* Calculator & Swap Section */}
-            <section className="py-20 md:py-32 bg-surface-container-low">
-              <div className="container mx-auto px-6 max-w-6xl">
+            <section className="py-20 md:py-32 bg-surface-container-low relative overflow-hidden">
+              <div className="graffiti-warrior-bg" />
+              <div className="container mx-auto px-6 max-w-6xl relative z-10">
                 <SectionHeading
                   subtitle="Mission Planning"
                   title="Price Calculator & Swap"
@@ -1500,16 +1892,8 @@ function AppContent() {
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center">
-                                <img
-                                  src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png"
-                                  className="w-5 h-5"
-                                  alt="BNB"
-                                  loading="lazy"
-                                  decoding="async"
-                                  width={20}
-                                  height={20}
-                                />
+                              <div className="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shrink-0">
+                                <BnbLogo className="w-5 h-5" />
                               </div>
                               <input
                                 type="number"
@@ -1534,15 +1918,11 @@ function AppContent() {
                               <span>Balance: {marsBalance} $MARS</span>
                             </div>
                             <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-amber-400/20 flex items-center justify-center">
+                              <div className="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shrink-0">
                                 <img
-                                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV7o7fU6dfo9Cro-BbQqA-g_FUdXeYDMijr0WL5-L_nNXiOd3M5jMKNYG4B2aOonyDKgvHj5VYLloEOb4GZAe07f4xKnqgsfMxSeEC-UcVbTdU_xskivYf91tlVwupaXxS9DffEczRQ7a6ABQuvNMMkazzbipZlU4UKYW0Zm9oPW3LsT1GTZRTlVFLnLmEtrjZLtfz9K1sVNddJHzN77q-yTuab7o4Qc5XK1MSjxkIaOEgm4sxfzLOPr4sl_RDZB1adQ2_VWB_VFrx"
-                                  className="w-5 h-5 rounded-full"
-                                  alt="MARS"
-                                  loading="lazy"
-                                  decoding="async"
-                                  width={20}
-                                  height={20}
+                                  src="/matara-icon1.png"
+                                  className="w-5 h-5 object-contain"
+                                  alt="$MARS Logo"
                                 />
                               </div>
                               <input
@@ -1709,8 +2089,9 @@ function AppContent() {
             </section>
 
             {/* Roadmap Section */}
-            <section id="roadmap" className="py-20 md:py-32 bg-surface">
-              <div className="container mx-auto px-6">
+            <section id="roadmap" className="py-20 md:py-32 bg-surface relative overflow-hidden">
+              <div className="graffiti-street-bg" />
+              <div className="container mx-auto px-6 relative z-10">
                 <h2 className="font-headline text-3xl md:text-4xl font-black uppercase text-center mb-16 md:mb-24">
                   The Lion’s Path
                 </h2>
@@ -1780,8 +2161,9 @@ function AppContent() {
             </section>
 
             {/* Stats Section */}
-            <section className="py-20 bg-surface-container-highest/30 backdrop-blur-md">
-              <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-12">
+            <section className="py-20 bg-surface-container-highest/30 backdrop-blur-md relative overflow-hidden">
+              <div className="graffiti-warrior-bg opacity-15" />
+              <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-12 relative z-10">
                 {[
                   { label: "Holders Strong", value: 2200, suffix: "+" },
                   { label: "Telegram Pride", value: 1700, suffix: "+" },
@@ -1809,14 +2191,15 @@ function AppContent() {
             </section>
 
             {/* Blog Section */}
-            <section id="blog" className="py-20 md:py-32 bg-surface">
-              <div className="container mx-auto px-6 max-w-6xl">
+            <section id="blog" className="py-20 md:py-32 bg-surface relative overflow-hidden">
+              <div className="graffiti-street-bg" />
+              <div className="container mx-auto px-6 max-w-6xl relative z-10">
                 <SectionHeading
                   subtitle="Galactic Updates"
                   title="The Pride Chronicles"
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {blogPosts.map((post, i) => (
                     <BlogCard
                       key={i}
@@ -1830,9 +2213,13 @@ function AppContent() {
                 </div>
 
                 <div className="mt-16 text-center">
-                  <button className="px-8 py-4 border border-amber-400/20 text-amber-400 font-black uppercase tracking-widest text-xs hover:bg-amber-400/10 transition-all">
-                    View All Chronicles
-                  </button>
+                  <a
+                    href="https://medium.com/@mataratoken"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-8 py-4 border border-amber-400/30 text-amber-400 font-black uppercase tracking-widest text-xs hover:bg-amber-400/10 hover:border-amber-400 transition-all rounded-xs">
+                    View All Chronicles on Medium <ExternalLink className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
             </section>
@@ -1840,8 +2227,9 @@ function AppContent() {
             {/* FAQ Section */}
             <section
               id="faq"
-              className="py-20 md:py-32 bg-surface-container-low">
-              <div className="container mx-auto px-6 max-w-4xl">
+              className="py-20 md:py-32 bg-surface-container-low relative overflow-hidden">
+              <div className="graffiti-warrior-bg" />
+              <div className="container mx-auto px-6 max-w-4xl relative z-10">
                 <SectionHeading
                   subtitle="Intel Center"
                   title="Frequently Asked Questions"
@@ -1891,8 +2279,9 @@ function AppContent() {
             </section>
 
             {/* Security Section */}
-            <section className="py-20 md:py-32 bg-surface">
-              <div className="container mx-auto px-6 max-w-4xl">
+            <section className="py-20 md:py-32 bg-surface relative overflow-hidden">
+              <div className="graffiti-street-bg" />
+              <div className="container mx-auto px-6 max-w-4xl relative z-10">
                 <div className="glass-card p-6 md:p-12 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/5 rounded-full blur-3xl" />
 
@@ -1966,6 +2355,7 @@ function AppContent() {
 
             {/* Newsletter Section */}
             <section className="py-20 bg-surface-container-low relative overflow-hidden">
+              <div className="hero-graffiti-bg opacity-15" />
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
                 <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />

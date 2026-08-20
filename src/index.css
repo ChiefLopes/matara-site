@@ -1,9 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+@font-face {
+  font-family: "KungFuPanda";
+  src: url("/KungFuPandaRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-headline: "Almendra SC", system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-headline: "KungFuPanda", "Poppins", sans-serif;
+  --font-display: "KungFuPanda", "Poppins", sans-serif;
+  --font-body: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-matara-bg: #090d16;
+  --color-matara-card: #0f172a;
+  --color-matara-header: #0b0f19;
+  --color-matara-border: #1e293b;
+  --color-matara-divider: #1e293b;
+  --color-matara-muted: #94a3b8;
 
   --color-background: var(--bg-color);
   --color-surface: var(--surface-color);
@@ -12,24 +30,42 @@
   --color-surface-container-high: var(--surface-container-high-color);
   --color-surface-container-highest: var(--surface-container-highest-color);
   --color-primary: var(--primary-color);
-  --color-secondary-container: #454747;
+  --color-secondary-container: #1e293b;
   --color-on-surface: var(--on-surface-color);
   --color-on-surface-variant: var(--on-surface-variant-color);
 }
 
 :root {
-  --bg-color: #08151d;
-  --surface-color: #08151d;
-  --surface-container-color: #142129;
-  --surface-container-low-color: #101d25;
-  --surface-container-high-color: #1f2c34;
-  --surface-container-highest-color: #2a363f;
-  --primary-color: #ffffff;
-  --on-surface-color: #d7e4f0;
-  --on-surface-variant-color: #cac7b6;
-  --mesh-bg: hsla(202, 57%, 7%, 1);
-  --grid-color: rgba(247, 190, 51, 0.05);
-  --glow-color: rgba(247, 190, 51, 0.4);
+  color-scheme: dark;
+  --matara-bg: #090d16;
+  --matara-card: #0f172a;
+  --matara-header: #0b0f19;
+  --matara-border: #1e293b;
+  --matara-divider: #1e293b;
+  --matara-muted: #94a3b8;
+  --matara-text-primary: #f8fafc;
+  --matara-text-secondary: #cbd5e1;
+  --matara-text-muted: #64748b;
+  --body-bg-gradient-1: rgba(15, 23, 42, 0.4);
+  --body-bg-gradient-2: rgba(30, 41, 59, 0.2);
+  --body-bg-gradient-3: rgba(9, 13, 22, 0.6);
+  --scrollbar-track: #090d16;
+  --scrollbar-thumb: #1e293b;
+
+  --bg-color: #090d16;
+  --surface-color: #0b0f19;
+  --surface-container-color: #0f172a;
+  --surface-container-low-color: #090d16;
+  --surface-container-high-color: #1e293b;
+  --surface-container-highest-color: #334155;
+  --primary-color: #f8fafc;
+  --on-surface-color: #f8fafc;
+  --on-surface-variant-color: #cbd5e1;
+  --mesh-bg: #090d16;
+  --grid-color: rgba(245, 166, 35, 0.05);
+  --glow-color: rgba(245, 166, 35, 0.35);
+  --glass-bg: rgba(15, 23, 42, 0.75);
+  --glass-border: rgba(30, 41, 59, 0.6);
 }
 
 .light {
@@ -39,22 +75,63 @@
   --surface-container-low-color: #ffffff;
   --surface-container-high-color: #e2e8f0;
   --surface-container-highest-color: #cbd5e1;
-  --primary-color: #08151d;
+  --primary-color: #090d16;
   --on-surface-color: #0f172a;
   --on-surface-variant-color: #475569;
   --mesh-bg: hsla(210, 40%, 98%, 1);
-  --grid-color: rgba(247, 190, 51, 0.1);
-  --glow-color: rgba(247, 190, 51, 0.2);
+  --grid-color: rgba(245, 166, 35, 0.1);
+  --glow-color: rgba(245, 166, 35, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
 }
 
-
 button {
-cursor: pointer;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @layer base {
   body {
-    @apply bg-background text-on-surface font-body selection:bg-amber-400 selection:text-black transition-colors duration-300;
+    background-color: var(--matara-bg);
+    color: var(--matara-text-primary);
+    font-family: var(--font-sans);
+    background-image: 
+      radial-gradient(at 0% 0%, var(--body-bg-gradient-1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, var(--body-bg-gradient-2) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, var(--body-bg-gradient-3) 0px, transparent 50%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+    @apply selection:bg-amber-400 selection:text-black transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-headline, .font-display {
+    font-family: "KungFuPanda", "Poppins", sans-serif;
+    letter-spacing: 0.03em;
   }
 }
 
@@ -63,33 +140,43 @@ cursor: pointer;
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
   }
 
-  :root {
-    --glass-bg: rgba(50, 53, 56, 0.4);
-    --glass-border: rgba(168, 138, 133, 0.1);
+  .glow-card-hover {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .light {
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(0, 0, 0, 0.05);
+  .glow-card-hover:hover {
+    border-color: rgba(251, 191, 36, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px -5px rgba(251, 191, 36, 0.15), 0 0 15px -5px rgba(59, 130, 246, 0.15);
+  }
+
+  .golden-blue-glow-hover {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .golden-blue-glow-hover:hover {
+    border-color: rgba(251, 191, 36, 0.35);
+    box-shadow: 0 0 30px -5px rgba(251, 191, 36, 0.18), 0 0 20px -5px rgba(59, 130, 246, 0.18);
   }
 
   .solar-flare-gradient {
-    background: linear-gradient(135deg, #f7be33 0%, #795900 100%);
+    background: linear-gradient(135deg, #f5a623 0%, #b87300 100%);
   }
 
   .mesh-gradient {
     background-color: var(--mesh-bg);
     background-image: 
-      radial-gradient(at 0% 0%, hsla(43, 92%, 58%, 0.1) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsla(180, 100%, 50%, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsla(300, 100%, 50%, 0.05) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsla(43, 92%, 58%, 0.1) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(245, 166, 35, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(61, 214, 140, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(30, 41, 59, 0.3) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(245, 166, 35, 0.1) 0px, transparent 50%);
   }
 
   .cyber-grid {
-    background-size: 40px 40px;
+    background-size: 32px 32px;
     background-image: 
       linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
       linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
@@ -114,7 +201,7 @@ cursor: pointer;
 
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-20px) rotate(1deg); }
+    50% { transform: translateY(-12px) rotate(0.5deg); }
   }
 
   .animate-float {
@@ -129,5 +216,71 @@ cursor: pointer;
   .animate-pulse-glow {
     animation: pulse-glow 4s ease-in-out infinite;
   }
+
+  /* Full-Website Continuous Matara Kingdom & Lion Graffiti Overlay System */
+  .graffiti-bg-fixed {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.12;
+    background-image: url('/backgrounds/matara-lion-graffiti.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    mix-blend-mode: color-dodge;
+    filter: contrast(1.15) brightness(0.95);
+  }
+
+  .graffiti-warrior-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+    background-image: url('/backgrounds/lion-warrior-graffiti.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    mix-blend-mode: color-dodge;
+    filter: contrast(1.15) brightness(0.95);
+  }
+
+  .graffiti-street-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+    background-image: url('/backgrounds/street-lion-graffiti.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    mix-blend-mode: color-dodge;
+    filter: contrast(1.15) brightness(0.95);
+  }
+
+  .hero-graffiti-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.20;
+    background-image: url('/backgrounds/hero-lion-graffiti.jpg');
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+    mix-blend-mode: color-dodge;
+    filter: contrast(1.15) brightness(0.95);
+  }
 }
+
 
