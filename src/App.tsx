@@ -779,20 +779,20 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("greetings") ||
     query.includes("howdy")
   ) {
-    return "Hello! Welcome to the Matara Intel Center. How can I help you today?";
+    return "Hello! I'm Marty, your Matara AI assistant. How can I help you today?";
   }
 
   // 2. Persona & Identity Questions
-  if (query.includes("who are you") || query.includes("what is your name") || query.includes("who created you") || query.includes("what can you do")) {
-    return "I am the Matara ($MARS) AI Guide! Ask me about tokenomics, contract security, buying on PancakeSwap, or our roadmap.";
+  if (query.includes("who are you") || query.includes("what is your name") || query.includes("who created you") || query.includes("what can you do") || query.includes("marty")) {
+    return "I'm Marty, your Matara ($MARS) AI Guide! Ask me about tokenomics, contract security, buying on PancakeSwap, or our roadmap.";
   }
 
   // 3. Courtesy & Casual Chat
   if (query.includes("how are you") || query.includes("how r u") || query.includes("doing well")) {
-    return "I'm doing great! How can I assist you today?";
+    return "I'm doing great! How can Marty assist you today?";
   }
   if (query.includes("thank") || query.includes("thanks") || query.includes("awesome") || query.includes("great")) {
-    return "You're welcome! Let me know if you need anything else.";
+    return "You're welcome! Marty is always here to help.";
   }
   if (query.includes("bye") || query.includes("goodbye") || query.includes("see ya")) {
     return "Goodbye! Have a great day ahead.";
@@ -904,7 +904,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
   }
 
   // 12. General AI Fallback
-  return "I'm here to help! Ask me anything about Matara ($MARS) tokenomics, contract security, how to buy, or our roadmap.";
+  return "I'm Marty! Ask me anything about Matara ($MARS) tokenomics, contract security, how to buy, or our roadmap.";
 };
 
 const AISupport = () => {
@@ -914,7 +914,7 @@ const AISupport = () => {
   >([
     {
       role: "ai",
-      text: "Welcome to the Matara Intel Center. I am your AI guide. Ask me anything about $MARS, our ecosystem, tokenomics, or mission!",
+      text: "Hello! I am Marty, your Matara AI guide. Ask me anything about $MARS, our ecosystem, tokenomics, or mission!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -944,7 +944,7 @@ const AISupport = () => {
           contents: userMsg,
           config: {
             systemInstruction:
-              "You are the Sovereign AI Intel Guide for Matara ($MARS), built on BSC. Respond warmly to greetings ('Hello', 'Hi', 'Hey'), conversational chat, and questions. You are fully trained on Matara's identity (Matara means 'Purpose'), total supply (690 Billion $MARS), 1% reflection rewards in $WKC (Wikicat), 50% locked liquidity, 10% burned, 40% ecosystem/rewards, 10% team reserve, ownership renounced, official contract (0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf), Matara Mini-App, Marsverse Mobile App, Brand Partner Portal, and 4-Phase Roadmap. Tone: Heroic, determined, authoritative, concise, and helpful.",
+              "You are Marty, the AI Intel Guide for Matara ($MARS) on BSC. Introduce yourself as Marty when asked. Respond warmly, simply, and concisely to greetings and questions. You are trained on Matara's identity (Matara means 'Purpose'), total supply (690B $MARS), 1% reflection rewards in $WKC, 50% locked liquidity, 10% burned, 40% ecosystem, 10% team reserve, ownership renounced, verified contract (0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf), Matara Mini-App, Marsverse Mobile App, and 4-Phase Roadmap. Keep answers clean, short, and friendly.",
           },
         });
 
@@ -980,7 +980,7 @@ const AISupport = () => {
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-400" />
                 <span className="font-headline text-sm font-black tracking-widest text-amber-400">
-                  INTEL CENTER AI
+                  MARTY — INTEL AI
                 </span>
               </div>
               <button
