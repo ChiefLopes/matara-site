@@ -2179,16 +2179,6 @@ function AppContent() {
               </div>
             </section>
 
-            {/* Mascot Sentinel: Run Lion */}
-            <SectionMascotFloat
-              image="/mascot/lion-run.png"
-              title="Galactic Sprint Sentinel"
-              subtitle="Phase 01 Active — Sprinting into utility, PancakeSwap, and Telegram bot integration."
-              badgeText="Phase 01 Active"
-              position="right"
-              quote="The Lion’s path is continuous. The Pride never sleeps."
-            />
-
             {/* Stats Section */}
             <section className="py-20 bg-surface-container-highest/30 backdrop-blur-md relative overflow-hidden">
               <div className="graffiti-warrior-bg opacity-15" />
@@ -2306,16 +2296,6 @@ function AppContent() {
                 </div>
               </div>
             </section>
-
-            {/* Mascot Sentinel: Flex Lion Guardian */}
-            <SectionMascotFloat
-              image="/mascot/lion-flex.png"
-              title="Sovereign Pride Guardian"
-              subtitle="Join thousands of active warriors in the Marsverse ecosystem."
-              badgeText="Join the Pride"
-              position="center"
-              quote="Every transaction is a heartbeat, every holder is a warrior."
-            />
 
             {/* Security Section */}
             <section className="py-20 md:py-32 bg-surface relative overflow-hidden">
