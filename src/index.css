@@ -199,22 +199,28 @@ button {
     @apply translate-x-full;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-12px) rotate(0.5deg); }
+  @keyframes mascot-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    50% { transform: translateY(-14px) rotate(1.5deg) scale(1.02); }
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .animate-mascot-float {
+    animation: mascot-float 6s ease-in-out infinite;
   }
 
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 0.5; filter: blur(40px); }
-    50% { opacity: 0.8; filter: blur(60px); }
+  @keyframes mascot-pulse-aura {
+    0%, 100% { opacity: 0.4; transform: scale(0.95); filter: blur(50px); }
+    50% { opacity: 0.85; transform: scale(1.1); filter: blur(75px); }
   }
 
-  .animate-pulse-glow {
-    animation: pulse-glow 4s ease-in-out infinite;
+  .animate-mascot-aura {
+    animation: mascot-pulse-aura 4s ease-in-out infinite;
+  }
+
+  .img-responsive {
+    max-w-full: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   /* Full-Website Continuous Matara Kingdom & Lion Graffiti Overlay System */

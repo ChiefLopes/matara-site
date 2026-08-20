@@ -984,21 +984,23 @@ const SectionMascotFloat = ({
   quote,
 }: SectionMascotFloatProps) => {
   return (
-    <div className="relative py-10 md:py-14 overflow-hidden z-20 pointer-events-none">
-      <div className="container mx-auto px-6 relative flex justify-center">
+    <div className="relative py-8 md:py-12 overflow-hidden z-20 pointer-events-none">
+      <div className="container mx-auto px-4 sm:px-6 relative flex justify-center">
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.9 }}
+          initial={{ opacity: 0, y: 35, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className={`pointer-events-auto relative flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-5 rounded-2xl glass-card border border-amber-400/30 bg-neutral-950/85 backdrop-blur-2xl shadow-2xl shadow-amber-400/10 max-w-2xl golden-blue-glow-hover ${
+          whileHover={{ scale: 1.02 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className={`pointer-events-auto relative flex flex-col sm:flex-row items-center gap-5 p-5 sm:p-6 rounded-2xl glass-card border border-amber-400/35 bg-neutral-950/90 backdrop-blur-2xl shadow-2xl shadow-amber-400/10 w-full max-w-xl sm:max-w-2xl golden-blue-glow-hover ${
             position === "left" ? "md:mr-auto" : position === "right" ? "md:ml-auto" : "mx-auto"
           }`}>
           {/* Transparent Floating Mascot Cutout */}
-          <div className="relative shrink-0 w-36 h-48 sm:w-44 sm:h-56 flex items-center justify-center">
+          <div className="relative shrink-0 w-32 h-44 sm:w-40 sm:h-52 flex items-center justify-center">
+            <div className="absolute inset-0 bg-amber-400/20 rounded-full blur-2xl animate-mascot-aura" />
             <motion.div
               animate={{
-                y: [0, -10, 0],
+                y: [0, -12, 0],
                 rotate: [0, 2, 0, -2, 0],
               }}
               transition={{
@@ -1006,22 +1008,22 @@ const SectionMascotFloat = ({
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="w-full h-full flex items-center justify-center">
+              className="w-full h-full flex items-center justify-center relative z-10">
               <img
                 src={image}
                 alt={title}
-                className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(251,191,36,0.3)] hover:scale-110 transition-transform duration-500"
+                className="w-full h-full max-w-full object-contain filter drop-shadow-[0_15px_35px_rgba(251,191,36,0.45)] hover:scale-110 transition-transform duration-500"
               />
             </motion.div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center shrink-0">
-              <span className="px-2.5 py-0.5 bg-amber-400 text-black text-[9px] font-black uppercase tracking-wider rounded-xs shadow-lg whitespace-nowrap">
+            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 text-center shrink-0 z-20">
+              <span className="px-3 py-1 bg-amber-400 text-black text-[9px] font-black uppercase tracking-wider rounded-xs shadow-lg whitespace-nowrap">
                 {badgeText}
               </span>
             </div>
           </div>
 
           {/* Mascot Info & Quote */}
-          <div className="space-y-2 text-center sm:text-left">
+          <div className="space-y-2 text-center sm:text-left flex-1">
             <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-amber-400">
               <Sparkles className="w-3.5 h-3.5" /> Lion Warrior Sentinel
             </div>
@@ -1061,20 +1063,28 @@ const InteractiveMascotSidekick = () => {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-40 flex items-end gap-3 pointer-events-auto">
+    <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-end gap-2.5 sm:gap-3 pointer-events-auto">
       <motion.button
         onClick={cycleQuote}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.92 }}
+        animate={{
+          y: [0, -6, 0],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
         aria-label="Lion Mascot Sidekick"
-        className="relative w-14 h-14 rounded-full border-2 border-amber-400/60 bg-neutral-950 p-0.5 shadow-xl shadow-amber-400/20 overflow-hidden group">
+        className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-amber-400/70 bg-neutral-950 p-0.5 shadow-xl shadow-amber-400/25 overflow-hidden group">
         <img
           src="/mascot/lion-flex.png"
           alt="Matara Lion Sidekick"
-          className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_4px_12px_rgba(251,191,36,0.4)] group-hover:scale-110 transition-transform"
+          className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_4px_12px_rgba(251,191,36,0.5)] group-hover:scale-110 transition-transform"
         />
-        <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-black animate-ping" />
-        <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-black" />
+        <div className="absolute top-0 right-0 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-amber-400 rounded-full border-2 border-black animate-ping" />
+        <div className="absolute top-0 right-0 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-amber-400 rounded-full border-2 border-black" />
       </motion.button>
 
       <AnimatePresence>
@@ -1083,7 +1093,7 @@ const InteractiveMascotSidekick = () => {
             initial={{ opacity: 0, x: -10, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: -10, scale: 0.9 }}
-            className="glass-card p-3 rounded-xl border-amber-400/30 bg-neutral-950/90 text-xs text-zinc-300 max-w-xs shadow-2xl relative">
+            className="glass-card p-3 sm:p-4 rounded-xl border-amber-400/40 bg-neutral-950/95 text-xs text-zinc-300 max-w-[260px] sm:max-w-xs shadow-2xl relative">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-1.5 right-1.5 text-zinc-500 hover:text-white text-[10px]">
@@ -1576,27 +1586,26 @@ function AppContent() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1, ease: "easeOut" }}
-                  className="relative hidden lg:block">
-                  <div className="absolute inset-0 bg-amber-400/20 blur-[120px] rounded-full" />
+                  className="relative flex items-center justify-center mt-8 lg:mt-0">
+                  <div className="absolute inset-0 bg-amber-400/25 blur-[100px] rounded-full animate-mascot-aura" />
                   <motion.div
                     style={{
                       y: smoothLionY,
                       rotate: smoothLionRotate,
                       opacity: lionOpacity,
                     }}
-                    className="relative z-10">
-                      <div className="p-2 flex items-center justify-center group max-w-md lg:max-w-[540px] xl:max-w-[580px] mx-auto relative">
-                        <div className="absolute inset-0 bg-amber-400/15 rounded-full blur-[90px] animate-pulse-glow" />
-                        <img
-                          src="/mascot/hero-lion-transparent.png"
-                          alt="Matara Sovereign Lion Warrior Mascot"
-                          className="w-full h-auto max-h-[520px] lg:max-h-[624px] xl:max-h-[660px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.4)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
-                        />
-                      </div>
-                    </motion.div>
+                    className="relative z-10 w-full flex justify-center">
+                    <div className="p-2 flex items-center justify-center group max-w-[280px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[560px] xl:max-w-[620px] mx-auto relative">
+                      <img
+                        src="/mascot/hero-lion-transparent.png"
+                        alt="Matara Sovereign Lion Warrior Mascot"
+                        className="w-full h-auto max-h-[380px] sm:max-h-[480px] lg:max-h-[620px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.45)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
+                      />
+                    </div>
+                  </motion.div>
 
                     {/* Floating Stats Card */}
                     <motion.div
@@ -1647,11 +1656,21 @@ function AppContent() {
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    className="md:col-span-5 relative">
-                    <img
+                    className="md:col-span-5 relative flex justify-center">
+                    <div className="absolute inset-0 bg-amber-400/20 rounded-full blur-3xl animate-mascot-aura" />
+                    <motion.img
+                      animate={{
+                        y: [0, -12, 0],
+                        rotate: [0, 1.5, -1.5, 0],
+                      }}
+                      transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                       src="/mascot/lion-sword.png"
                       alt="The Lion Warrior Mascot"
-                      className="w-full aspect-square object-contain filter drop-shadow-[0_20px_40px_rgba(251,191,36,0.35)] transition-all duration-700 hover:scale-105"
+                      className="w-full max-w-[280px] sm:max-w-[360px] md:max-w-[480px] aspect-square object-contain filter drop-shadow-[0_20px_40px_rgba(251,191,36,0.4)] transition-all duration-700 hover:scale-105 relative z-10"
                       loading="lazy"
                       decoding="async"
                       width={600}
@@ -1703,6 +1722,16 @@ function AppContent() {
                 </div>
               </div>
             </section>
+
+            {/* Mascot Sentinel: Skate Lion */}
+            <SectionMascotFloat
+              image="/mascot/lion-skater.png"
+              title="Skate Sentinel"
+              subtitle="Moving with speed, agility, and shared conviction across the Marsverse."
+              badgeText="Agile Execution"
+              position="right"
+              quote="Speed and precision define our path on Binance Smart Chain."
+            />
 
             {/* Ecosystem Section */}
             <section className="py-20 md:py-32 bg-surface relative overflow-hidden">
@@ -1835,6 +1864,16 @@ function AppContent() {
 
             {/* Marsverse App Showcase Section */}
             <MarsverseAppShowcase links={LINKS} />
+
+            {/* Mascot Sentinel: Leap Lion */}
+            <SectionMascotFloat
+              image="/mascot/lion-leap.png"
+              title="Leap of Conviction"
+              subtitle="690 Billion $MARS fixed supply forged for long-term architectural intent."
+              badgeText="690B Fixed Supply"
+              position="left"
+              quote="We do not build for the next hour; we build for the next age."
+            />
 
             {/* Calculator & Swap Section */}
             <section className="py-20 md:py-32 bg-surface-container-low relative overflow-hidden">
@@ -2160,6 +2199,16 @@ function AppContent() {
               </div>
             </section>
 
+            {/* Mascot Sentinel: Run Lion */}
+            <SectionMascotFloat
+              image="/mascot/lion-run.png"
+              title="Galactic Sprint Sentinel"
+              subtitle="Phase 01 Active — Sprinting into utility, PancakeSwap, and Telegram bot integration."
+              badgeText="Phase 01 Active"
+              position="right"
+              quote="The Lion’s path is continuous. The Pride never sleeps."
+            />
+
             {/* Stats Section */}
             <section className="py-20 bg-surface-container-highest/30 backdrop-blur-md relative overflow-hidden">
               <div className="graffiti-warrior-bg opacity-15" />
@@ -2277,6 +2326,16 @@ function AppContent() {
                 </div>
               </div>
             </section>
+
+            {/* Mascot Sentinel: Flex Lion Guardian */}
+            <SectionMascotFloat
+              image="/mascot/lion-flex.png"
+              title="Sovereign Pride Guardian"
+              subtitle="Join thousands of active warriors in the Marsverse ecosystem."
+              badgeText="Join the Pride"
+              position="center"
+              quote="Every transaction is a heartbeat, every holder is a warrior."
+            />
 
             {/* Security Section */}
             <section className="py-20 md:py-32 bg-surface relative overflow-hidden">
