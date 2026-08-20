@@ -1982,11 +1982,11 @@ function AppContent() {
                       opacity: lionOpacity,
                     }}
                     className="relative z-10 w-full flex justify-center">
-                    <div className="p-2 flex items-center justify-center group max-w-[280px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[560px] xl:max-w-[620px] mx-auto relative">
+                    <div className="p-2 flex items-center justify-center group max-w-[390px] sm:max-w-[530px] md:max-w-[670px] lg:max-w-[780px] xl:max-w-[870px] mx-auto relative">
                       <img
                         src="/mascot/hero-lion-transparent.png"
                         alt="Matara Sovereign Lion Warrior Mascot"
-                        className="w-full h-auto max-h-[340px] sm:max-h-[420px] lg:max-h-[520px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.45)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
+                        className="w-full h-auto max-h-[480px] sm:max-h-[590px] lg:max-h-[730px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.45)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
                       />
                     </div>
                   </motion.div>
