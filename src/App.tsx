@@ -779,23 +779,23 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("greetings") ||
     query.includes("howdy")
   ) {
-    return "Greetings, warrior! Welcome to the Matara Intel Center. I am your Sovereign AI Sentinel, fully trained on all knowledge regarding Matara ($MARS), our 690B supply, 1% reflection rewards, mobile apps, and cosmic roadmap. How can I assist your mission today?";
+    return "Hello! Welcome to the Matara Intel Center. How can I help you today?";
   }
 
   // 2. Persona & Identity Questions
   if (query.includes("who are you") || query.includes("what is your name") || query.includes("who created you") || query.includes("what can you do")) {
-    return "I am the Sovereign AI Intel Guide of Matara ($MARS). I can answer any questions about our tokenomics, smart contract security, PancakeSwap trading, Wikicat reflections, the Marsverse Mobile App, and our 4-Phase Roadmap!";
+    return "I am the Matara ($MARS) AI Guide! Ask me about tokenomics, contract security, buying on PancakeSwap, or our roadmap.";
   }
 
   // 3. Courtesy & Casual Chat
   if (query.includes("how are you") || query.includes("how r u") || query.includes("doing well")) {
-    return "I am standing strong with unyielding conviction, warrior! Ready to guide you through the Marsverse. What would you like to explore today?";
+    return "I'm doing great! How can I assist you today?";
   }
   if (query.includes("thank") || query.includes("thanks") || query.includes("awesome") || query.includes("great")) {
-    return "You are most welcome, Martian warrior! Strength and honor to the Pride. Let me know if you need any more intelligence.";
+    return "You're welcome! Let me know if you need anything else.";
   }
   if (query.includes("bye") || query.includes("goodbye") || query.includes("see ya")) {
-    return "Farewell, warrior! Remember: Every transaction is a heartbeat, every holder is a warrior. The Pride moves together!";
+    return "Goodbye! Have a great day ahead.";
   }
 
   // 4. Token Meaning & Purpose
@@ -807,7 +807,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("what does matara mean") ||
     query.includes("about matara")
   ) {
-    return "Matara ($MARS) means 'Purpose'. Built on Binance Smart Chain (BSC), Matara is a sovereign cryptocurrency ecosystem forged with architectural intent, long-term conviction, and real utility over hollow noise.";
+    return "Matara ($MARS) means 'Purpose'. It is a sovereign crypto ecosystem built on Binance Smart Chain (BSC) focused on real utility, community strength, and long-term conviction.";
   }
 
   // 5. Tokenomics, Total Supply & Burn
@@ -820,7 +820,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("burn") ||
     query.includes("reserve")
   ) {
-    return "Matara ($MARS) has a fixed initial total supply of 690 Billion $MARS (690,000,000,000). Distribution: 50% Locked Liquidity, 10% Permanently Burned, 40% Ecosystem & Task Rewards, and 10% Multi-Sig Team Reserve. Contract ownership is renounced with zero hidden minting!";
+    return "Total Supply: 690 Billion $MARS.\n• 50% Locked Liquidity\n• 10% Permanently Burned\n• 40% Ecosystem & Task Rewards\n• 10% Team Reserve\nOwnership is renounced!";
   }
 
   // 6. Tax, Reflection Rewards & Wikicat ($WKC)
@@ -833,7 +833,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("wikicat") ||
     query.includes("earn")
   ) {
-    return "$MARS features a 1% reflection tax on buys and sells that rewards active holders directly in $WKC (Wikicat). Earn passive rewards continuously simply by holding $MARS in your Web3 wallet!";
+    return "$MARS has a 1% reflection tax on trades that automatically rewards holders in $WKC (Wikicat).";
   }
 
   // 7. Buying, Trading & PancakeSwap
@@ -846,7 +846,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("trade") ||
     query.includes("where to buy")
   ) {
-    return "You can buy $MARS on PancakeSwap or directly using the built-in Marsverse Swap engine on our site! Connect your Web3 wallet (MetaMask, Trust Wallet, Rainbow) on the BSC network and swap BNB for $MARS.";
+    return "You can buy $MARS on PancakeSwap or via our built-in DEX Swap engine by swapping BNB on Binance Smart Chain.";
   }
 
   // 8. Contract Address, Security & Audits
@@ -860,7 +860,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("trust") ||
     query.includes("renounce")
   ) {
-    return "Security is our core foundation! 50% liquidity is locked via audited smart contracts, 10% is burned on-chain, and ownership is renounced. Verified BSC Smart Contract: 0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf.";
+    return "Security: 50% liquidity is locked, 10% burned, and ownership is renounced.\nVerified Contract: 0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf";
   }
 
   // 9. Ecosystem Products (Mini-App, Marsverse App, SNR, Brand Portal)
@@ -874,7 +874,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("partner") ||
     query.includes("portal")
   ) {
-    return "The Matara Mini-App and Marsverse Mobile App serve as your command center! Features include earning $SNR task rewards, tracking live BSC price charts ($0.000000064), DEX token swapping, and the Brand Partner Portal.";
+    return "The Matara Mini-App and Marsverse Mobile App feature task rewards ($SNR), live BSC price charts, DEX token swapping, and the Brand Partner Portal.";
   }
 
   // 10. Roadmap & Future Phases
@@ -886,7 +886,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("plan") ||
     query.includes("next")
   ) {
-    return "The Lion's Path consists of 4 Phases: Phase 1 (Awakening: Launch & Community), Phase 2 (Roar: PancakeSwap Listing, CMC/CG, Mini-App Beta), Phase 3 (Ascent: Tier-2 CEX, NFT Staking, Mini-App V1), and Phase 4 (Dynasty: Tier-1 CEX, Hope Initiatives, Cross-Chain Sovereignty).";
+    return "The Lion's Path Roadmap:\n• Phase 1: Launch & Community\n• Phase 2: PancakeSwap, CMC/CG, Mini-App Beta\n• Phase 3: Tier-2 CEX, NFT Staking, Mini-App V1\n• Phase 4: Tier-1 CEX & Hope Initiatives";
   }
 
   // 11. Community & Social Links
@@ -900,11 +900,11 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     query.includes("social") ||
     query.includes("discord")
   ) {
-    return "Join the Pride! Follow our official X account @mataratoken, join our active Telegram Pride group, read 'The Pride Chronicles' on Medium, or connect with our Discord. Links are in the site header and footer!";
+    return "Join our community on X (@mataratoken), Telegram, Medium ('The Pride Chronicles'), and Discord. Official links are in the site header and footer!";
   }
 
   // 12. General AI Fallback
-  return `I hear you, warrior! Matara ($MARS) is built on purpose, strength, and sovereign community governance. You can ask me about our 690B token supply, 1% $WKC reflection rewards, PancakeSwap trading, verified BSC contract, Marsverse Mobile App, or roadmap phases! What would you like to explore?`;
+  return "I'm here to help! Ask me anything about Matara ($MARS) tokenomics, contract security, how to buy, or our roadmap.";
 };
 
 const AISupport = () => {
