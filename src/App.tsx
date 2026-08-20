@@ -1586,9 +1586,9 @@ function AppContent() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
+                  initial={{ opacity: 0, x: 280, scale: 0.45 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                   className="relative hidden lg:flex items-center justify-center mt-8 lg:mt-0">
                   <div className="absolute inset-0 bg-amber-400/25 blur-[100px] rounded-full animate-mascot-aura" />
                   <motion.div
