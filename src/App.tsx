@@ -1075,7 +1075,7 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
   >([
     {
       role: "ai",
-      text: "Hello! I am Marty, your Matara AI guide. Ask me about $MARS live price, % change, Market Cap, CA, locked liquidity, or official links!",
+      text: "Hello! I am Marty, your Matara AI guide. Ask me anything about the Matara Ecosystem.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -1531,13 +1531,41 @@ function AppContent() {
 
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       setShowScrollTop(window.scrollY > 500);
+
+      const sectionIds = [
+        "story",
+        "ecosystem",
+        "marsverse-app",
+        "tokenomics",
+        "roadmap",
+        "blog",
+        "faq",
+      ];
+      const scrollPosition = window.scrollY + 220;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(sectionIds[i]);
+            break;
+          }
+        }
+      }
+      if (window.scrollY < 200) {
+        setActiveSection("");
+      }
     };
+
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -1671,7 +1699,14 @@ function AppContent() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const navItems = ["Story", "Tokenomics", "Roadmap", "Blog", "FAQ"];
+  const navItems = [
+    "Story",
+    "Ecosystem",
+    "Tokenomics",
+    "Roadmap",
+    "Blog",
+    "FAQ",
+  ];
 
   return (
     <div className="min-h-screen bg-background selection:bg-amber-400 selection:text-black relative">
@@ -1718,12 +1753,33 @@ function AppContent() {
                   </a>
                 );
               }
+
+              const secId = item.toLowerCase();
+              const isActive =
+                activeSection === secId ||
+                (secId === "ecosystem" && activeSection === "marsverse-app");
+
               return (
                 <a
                   key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="font-headline font-bold tracking-tight uppercase text-zinc-400 hover:text-amber-400 transition-colors text-sm">
+                  href={`#${secId}`}
+                  className={`font-headline font-bold tracking-tight uppercase text-sm relative py-1 transition-colors duration-300 ${
+                    isActive
+                      ? "text-amber-400 font-extrabold"
+                      : "text-zinc-400 hover:text-amber-400"
+                  }`}>
                   {item}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavTab"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-amber-400 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
                 </a>
               );
             })}
@@ -1775,12 +1831,22 @@ function AppContent() {
                   </a>
                 );
               }
+
+              const secId = item.toLowerCase();
+              const isActive =
+                activeSection === secId ||
+                (secId === "ecosystem" && activeSection === "marsverse-app");
+
               return (
                 <a
                   key={item}
-                  href={`#${item.toLowerCase()}`}
+                  href={`#${secId}`}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="font-headline font-bold tracking-tight uppercase text-zinc-400 hover:text-amber-400 transition-colors text-lg">
+                  className={`font-headline font-bold tracking-tight uppercase transition-all text-lg ${
+                    isActive
+                      ? "text-amber-400 pl-3 border-l-2 border-amber-400 font-extrabold"
+                      : "text-zinc-400 hover:text-amber-400"
+                  }`}>
                   {item}
                 </a>
               );
