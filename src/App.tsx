@@ -760,6 +760,36 @@ const BlogPostView = ({ post, onBack }: any) => (
   </motion.div>
 );
 
+const getMataraKnowledgeResponse = (prompt: string): string => {
+  const query = prompt.toLowerCase();
+
+  if (query.includes("what is") || query.includes("about") || query.includes("meaning") || query.includes("purpose") || query.includes("who is")) {
+    return "Matara ($MARS) means 'Purpose'. Built on Binance Smart Chain (BSC), Matara is a sovereign ecosystem forged with unyielding conviction, architectural intent, and real utility over hollow noise.";
+  }
+  if (query.includes("supply") || query.includes("total") || query.includes("how many") || query.includes("tokenomics") || query.includes("burn")) {
+    return "Matara has a fixed initial total supply of 690 Billion $MARS (690,000,000,000). Distribution: 50% Locked Liquidity, 10% Permanently Burned, 40% Ecosystem & Task Rewards, and 10% Multi-sig Team Reserve. Ownership is renounced with zero hidden minting!";
+  }
+  if (query.includes("tax") || query.includes("reflection") || query.includes("fee") || query.includes("reward") || query.includes("wkc") || query.includes("wikicat")) {
+    return "$MARS features a 1% reflection tax on buys and sells that rewards active holders directly in $WKC (Wikicat). Earn passive rewards while holding in the Pride!";
+  }
+  if (query.includes("buy") || query.includes("pancake") || query.includes("swap") || query.includes("how to get") || query.includes("purchase")) {
+    return "You can buy $MARS on PancakeSwap or directly using the built-in Marsverse Swap engine! Connect your Web3 wallet (MetaMask, Trust Wallet, Rainbow) on BSC and swap BNB for $MARS.";
+  }
+  if (query.includes("lock") || query.includes("security") || query.includes("audit") || query.includes("contract") || query.includes("address") || query.includes("safe")) {
+    return "Security is our foundation! 50% liquidity is locked via audited contracts, 10% burned on-chain, and ownership is renounced with zero mint function. Official BSC Contract: 0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf.";
+  }
+  if (query.includes("app") || query.includes("mini") || query.includes("marsverse") || query.includes("bot") || query.includes("mobile") || query.includes("portal")) {
+    return "The Matara Mini-App and Marsverse Mobile App serve as your command center! Features include earning $SNR task rewards, tracking live BSC price charts ($0.000000064), DEX swapping, and the Brand Partner Portal.";
+  }
+  if (query.includes("roadmap") || query.includes("phase") || query.includes("path") || query.includes("future") || query.includes("plan")) {
+    return "The Lion's Path consists of 4 Phases: Phase 1 (Launch & Community), Phase 2 (PancakeSwap Listing, CMC/CG, Mini-App Beta), Phase 3 (CEX Tier-2, NFT Staking, Mini-App V1), and Phase 4 (Tier-1 CEX, Hope Initiatives, Cross-Chain Sovereignty).";
+  }
+  if (query.includes("snr") || query.includes("task") || query.includes("campaign") || query.includes("partner")) {
+    return "SNR (Sovereign Network Rewards) are earned by completing active community campaigns & social tasks in the Matara Mini-App. Brand partners can also launch funded marketing campaigns!";
+  }
+  return "Matara ($MARS) is the sovereign token of purpose built on BSC with 690B fixed supply, 1% $WKC reflections, locked liquidity, and the Marsverse Mobile Mini-App ecosystem. Every transaction is a heartbeat, every holder is a warrior!";
+};
+
 const AISupport = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
@@ -767,7 +797,7 @@ const AISupport = () => {
   >([
     {
       role: "ai",
-      text: "Welcome to the Matara Intel Center. I am your AI guide. How can I assist you in your mission today?",
+      text: "Welcome to the Matara Intel Center. I am your AI guide. Ask me anything about $MARS, our ecosystem, tokenomics, or mission!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -789,34 +819,31 @@ const AISupport = () => {
     setLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: userMsg,
-        config: {
-          systemInstruction:
-            "You are a helpful AI assistant for Matara ($MARS), a cryptocurrency project on BSC. You are knowledgeable about its ecosystem, tokenomics (690B supply, 1% reflection), and mission. Your tone is heroic, determined, and professional. Keep answers concise.",
-        },
-      });
+      if (process.env.GEMINI_API_KEY) {
+        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+        const response = await ai.models.generateContent({
+          model: "gemini-3-flash-preview",
+          contents: userMsg,
+          config: {
+            systemInstruction:
+              "You are the Sovereign AI Intel Guide for Matara ($MARS), built on BSC. You are fully trained on Matara's identity (Matara means 'Purpose'), total supply (690 Billion $MARS), 1% reflection rewards in $WKC (Wikicat), 50% locked liquidity, 10% burned, 40% ecosystem/rewards, 10% team reserve, ownership renounced, official contract (0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf), Matara Mini-App, Marsverse Mobile App, Brand Partner Portal, and 4-Phase Roadmap (Awakening, Roar, Ascent, Dynasty). Tone: Heroic, determined, authoritative, concise, and helpful.",
+          },
+        });
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "ai",
-          text:
-            response.text ||
-            "I am unable to process that request at the moment, warrior.",
-        },
-      ]);
+        if (response.text) {
+          setMessages((prev) => [...prev, { role: "ai", text: response.text }]);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Intelligent Fallback Knowledge Engine
+      const fallbackReply = getMataraKnowledgeResponse(userMsg);
+      setMessages((prev) => [...prev, { role: "ai", text: fallbackReply }]);
     } catch (error) {
       console.error(error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "ai",
-          text: "Connection to the Intel Center lost. Please try again later.",
-        },
-      ]);
+      const fallbackReply = getMataraKnowledgeResponse(userMsg);
+      setMessages((prev) => [...prev, { role: "ai", text: fallbackReply }]);
     } finally {
       setLoading(false);
     }
