@@ -778,6 +778,13 @@ const fetchLiveMarsData = async (fallbackPrice: number | null) => {
           topPair.marketCap ||
           Math.round((p || 0.000000064) * 690000000000);
         const liq = topPair.liquidity?.usd || 15600;
+
+        const pc24h = topPair.priceChange?.h24 ?? 0;
+        const pc1h = topPair.priceChange?.h1 ?? 0;
+        const pc6h = topPair.priceChange?.h6 ?? 0;
+        const fmtChange = (v: number) =>
+          v >= 0 ? `+${v.toFixed(2)}%` : `${v.toFixed(2)}%`;
+
         return {
           priceStr:
             p > 0
@@ -785,6 +792,8 @@ const fetchLiveMarsData = async (fallbackPrice: number | null) => {
               : `$${(fallbackPrice || 0.000000064).toFixed(9)}`,
           marketCapStr: `$${(mc || 44160).toLocaleString()}`,
           liquidityStr: `$${(liq || 15600).toLocaleString()}`,
+          change24hStr: fmtChange(pc24h),
+          changeSummaryStr: `24h: ${fmtChange(pc24h)} | 6h: ${fmtChange(pc6h)} | 1h: ${fmtChange(pc1h)}`,
           contract: contract,
         };
       }
@@ -799,6 +808,8 @@ const fetchLiveMarsData = async (fallbackPrice: number | null) => {
     priceStr: `$${p < 0.0001 ? p.toFixed(9) : p.toFixed(6)}`,
     marketCapStr: `$${(mc || 44160).toLocaleString()}`,
     liquidityStr: "$15,600+",
+    change24hStr: "+0.00%",
+    changeSummaryStr: "24h: +0.00% | 1h: +0.00%",
     contract: contract,
   };
 };
@@ -818,10 +829,26 @@ const getMataraKnowledgeResponse = async (
     query.includes("worth")
   ) {
     const live = await fetchLiveMarsData(fallbackPrice);
-    return `The live price of $MARS is ${live.priceStr} USD.`;
+    return `The live price of $MARS is ${live.priceStr} USD (${live.change24hStr} in 24h).`;
   }
 
-  // 2. Real-time Market Cap Queries
+  // 2. Real-time % Change Queries
+  if (
+    query.includes("%") ||
+    query.includes("change") ||
+    query.includes("percent") ||
+    query.includes("gain") ||
+    query.includes("drop") ||
+    query.includes("24h") ||
+    query.includes("growth") ||
+    query.includes("performance") ||
+    query.includes("up or down")
+  ) {
+    const live = await fetchLiveMarsData(fallbackPrice);
+    return `📈 $MARS Price Performance:\n• 24h Change: ${live.change24hStr}\n• Breakdown: ${live.changeSummaryStr}\n• Current Price: ${live.priceStr} USD`;
+  }
+
+  // 3. Real-time Market Cap Queries
   if (
     query.includes("market cap") ||
     query.includes("marketcap") ||
@@ -833,7 +860,7 @@ const getMataraKnowledgeResponse = async (
     return `The Market Cap of $MARS is approximately ${live.marketCapStr} USD (based on 690 Billion total supply).`;
   }
 
-  // 3. Contract Address (CA) Queries
+  // 4. Contract Address (CA) Queries
   if (
     query === "ca" ||
     query.includes("ca ") ||
@@ -845,7 +872,7 @@ const getMataraKnowledgeResponse = async (
     return `Official $MARS BSC Contract Address (CA):\n0x6844B2e9afB002d188A072A3ef0FBb068650F214`;
   }
 
-  // 4. Liquidity Locked Queries
+  // 5. Liquidity Locked Queries
   if (
     query.includes("liquidity") ||
     query.includes("lp") ||
@@ -856,7 +883,7 @@ const getMataraKnowledgeResponse = async (
     return `Liquidity Security:\n• 50% Liquidity Locked (${live.liquidityStr} in LP)\n• 10% Permanently Burned on-chain\n• Contract Ownership Renounced!`;
   }
 
-  // 5. Live Stats / Overview Queries
+  // 6. Live Stats / Overview Queries
   if (
     query.includes("stat") ||
     query.includes("info") ||
@@ -864,10 +891,29 @@ const getMataraKnowledgeResponse = async (
     query.includes("live data")
   ) {
     const live = await fetchLiveMarsData(fallbackPrice);
-    return `📊 $MARS Live Stats:\n• Price: ${live.priceStr} USD\n• Market Cap: ${live.marketCapStr} USD\n• Liquidity Locked: 50% (${live.liquidityStr})\n• CA: 0x6844B2e9afB002d188A072A3ef0FBb068650F214\n• Total Supply: 690 Billion $MARS`;
+    return `📊 $MARS Live Stats:\n• Price: ${live.priceStr} USD (${live.change24hStr})\n• Market Cap: ${live.marketCapStr} USD\n• Liquidity Locked: 50% (${live.liquidityStr})\n• CA: 0x6844B2e9afB002d188A072A3ef0FBb068650F214\n• Total Supply: 690 Billion $MARS`;
   }
 
-  // 6. Greetings & Salutations
+  // 7. Official Socials & Links
+  if (
+    query.includes("telegram") ||
+    query.includes("twitter") ||
+    query.includes("x") ||
+    query.includes("medium") ||
+    query.includes("blog") ||
+    query.includes("community") ||
+    query.includes("social") ||
+    query.includes("link") ||
+    query.includes("discord") ||
+    query.includes("whitepaper") ||
+    query.includes("gitbook") ||
+    query.includes("bscscan") ||
+    query.includes("audit")
+  ) {
+    return `🌐 Official Matara ($MARS) Links:\n\n• Telegram Pride: https://t.me/Matara_Kingdom\n• X (Twitter): https://x.com/captainmatara\n• Whitepaper: https://matara-token.gitbook.io/matara-token/\n• BSCScan: https://bscscan.com/address/0x6844B2e9afB002d188A072A3ef0FBb068650F214\n• Audit: https://x.com/VB_Audit/status/1966446788988064127\n• PancakeSwap Trade: https://pancakeswap.finance/swap?outputCurrency=0x6844B2e9afB002d188A072A3ef0FBb068650F214\n• Telegram Bot: https://t.me/MataraComBot?start=rnUtTwgN`;
+  }
+
+  // 8. Greetings & Salutations
   if (
     query === "hi" ||
     query === "hello" ||
@@ -886,7 +932,7 @@ const getMataraKnowledgeResponse = async (
     return "Hello! I'm Marty, your Matara AI assistant. How can I help you today?";
   }
 
-  // 7. Persona & Identity Questions
+  // 9. Persona & Identity Questions
   if (
     query.includes("who are you") ||
     query.includes("what is your name") ||
@@ -894,10 +940,10 @@ const getMataraKnowledgeResponse = async (
     query.includes("what can you do") ||
     query.includes("marty")
   ) {
-    return "I'm Marty, your Matara ($MARS) AI Guide! Ask me about live price, Market Cap, contract address (CA), locked liquidity, tokenomics, or our roadmap.";
+    return "I'm Marty, your Matara ($MARS) AI Guide! Ask me about live price, % change, Market Cap, contract address (CA), official links, or roadmap.";
   }
 
-  // 8. Courtesy & Casual Chat
+  // 10. Courtesy & Casual Chat
   if (
     query.includes("how are you") ||
     query.includes("how r u") ||
@@ -921,7 +967,7 @@ const getMataraKnowledgeResponse = async (
     return "Goodbye! Have a great day ahead.";
   }
 
-  // 9. Token Meaning & Purpose
+  // 11. Token Meaning & Purpose
   if (
     query.includes("what is matara") ||
     query.includes("what is mars") ||
@@ -933,7 +979,7 @@ const getMataraKnowledgeResponse = async (
     return "Matara ($MARS) means 'Purpose'. It is a sovereign crypto ecosystem built on Binance Smart Chain (BSC) focused on real utility, community strength, and long-term conviction.";
   }
 
-  // 10. Tokenomics, Total Supply & Burn
+  // 12. Tokenomics, Total Supply & Burn
   if (
     query.includes("supply") ||
     query.includes("total supply") ||
@@ -946,7 +992,7 @@ const getMataraKnowledgeResponse = async (
     return "Total Supply: 690 Billion $MARS.\n• 50% Locked Liquidity\n• 10% Permanently Burned\n• 40% Ecosystem & Task Rewards\n• 10% Team Reserve\nOwnership is renounced!";
   }
 
-  // 11. Tax, Reflection Rewards & Wikicat ($WKC)
+  // 13. Tax, Reflection Rewards & Wikicat ($WKC)
   if (
     query.includes("tax") ||
     query.includes("reflection") ||
@@ -959,7 +1005,7 @@ const getMataraKnowledgeResponse = async (
     return "$MARS has a 1% reflection tax on trades that automatically rewards holders in $WKC (Wikicat).";
   }
 
-  // 12. Buying, Trading & PancakeSwap
+  // 14. Buying, Trading & PancakeSwap
   if (
     query.includes("buy") ||
     query.includes("pancake") ||
@@ -969,10 +1015,10 @@ const getMataraKnowledgeResponse = async (
     query.includes("trade") ||
     query.includes("where to buy")
   ) {
-    return "You can buy $MARS on PancakeSwap or via our built-in DEX Swap engine by swapping BNB on Binance Smart Chain.";
+    return "You can buy $MARS on PancakeSwap (https://pancakeswap.finance/swap?outputCurrency=0x6844B2e9afB002d188A072A3ef0FBb068650F214) or via our built-in DEX Swap engine.";
   }
 
-  // 13. Ecosystem Products
+  // 15. Ecosystem Products
   if (
     query.includes("app") ||
     query.includes("mini") ||
@@ -986,7 +1032,7 @@ const getMataraKnowledgeResponse = async (
     return "The Matara Mini-App and Marsverse Mobile App feature task rewards ($SNR), live BSC price charts, DEX token swapping, and the Brand Partner Portal.";
   }
 
-  // 14. Roadmap & Future Phases
+  // 16. Roadmap & Future Phases
   if (
     query.includes("roadmap") ||
     query.includes("phase") ||
@@ -998,22 +1044,28 @@ const getMataraKnowledgeResponse = async (
     return "The Lion's Path Roadmap:\n• Phase 1: Launch & Community\n• Phase 2: PancakeSwap, CMC/CG, Mini-App Beta\n• Phase 3: Tier-2 CEX, NFT Staking, Mini-App V1\n• Phase 4: Tier-1 CEX & Hope Initiatives";
   }
 
-  // 15. Community & Social Links
-  if (
-    query.includes("telegram") ||
-    query.includes("twitter") ||
-    query.includes("x") ||
-    query.includes("medium") ||
-    query.includes("blog") ||
-    query.includes("community") ||
-    query.includes("social") ||
-    query.includes("discord")
-  ) {
-    return "Join our community on X (@mataratoken), Telegram, Medium ('The Pride Chronicles'), and Discord. Official links are in the site header and footer!";
-  }
+  // 17. General AI Fallback
+  return "I'm Marty! Ask me about live price, % change, Market Cap, CA (0x6844B2e9afB002d188A072A3ef0FBb068650F214), locked liquidity, or official social links.";
+};
 
-  // 16. General AI Fallback
-  return "I'm Marty! Ask me about live price, Market Cap, CA (0x6844B2e9afB002d188A072A3ef0FBb068650F214), locked liquidity, tokenomics, or our roadmap.";
+const renderFormattedText = (text: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-amber-400 underline underline-offset-2 font-bold hover:text-amber-300 transition-colors break-all">
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
 };
 
 const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
@@ -1023,7 +1075,7 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
   >([
     {
       role: "ai",
-      text: "Hello! I am Marty, your Matara AI guide. Ask me about $MARS live price, Market Cap, CA, locked liquidity, or roadmap!",
+      text: "Hello! I am Marty, your Matara AI guide. Ask me about $MARS live price, % change, Market Cap, CA, locked liquidity, or official links!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -1053,7 +1105,7 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
           model: "gemini-3-flash-preview",
           contents: userMsg,
           config: {
-            systemInstruction: `You are Marty, the AI Intel Guide for Matara ($MARS) on BSC. Introduce yourself as Marty when asked. Respond warmly, simply, and concisely to greetings and questions. Current Live Data: Price = ${live.priceStr}, Market Cap = ${live.marketCapStr}, CA = 0x6844B2e9afB002d188A072A3ef0FBb068650F214, Liquidity = 50% locked (${live.liquidityStr}). Keep answers clean, short, and friendly.`,
+            systemInstruction: `You are Marty, the AI Intel Guide for Matara ($MARS) on BSC. Introduce yourself as Marty when asked. Respond warmly, simply, and concisely to greetings and questions. Current Live Data: Price = ${live.priceStr}, 24h Change = ${live.change24hStr}, Market Cap = ${live.marketCapStr}, CA = 0x6844B2e9afB002d188A072A3ef0FBb068650F214, Liquidity = 50% locked (${live.liquidityStr}). Official Social Links: Telegram (https://t.me/Matara_Kingdom), X (https://x.com/captainmatara), Whitepaper (https://matara-token.gitbook.io/matara-token/). Keep answers clean, short, and friendly.`,
           },
         });
 
@@ -1117,12 +1169,12 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
                   key={i}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-[80%] p-3 text-sm ${
+                    className={`max-w-[85%] p-3 text-sm whitespace-pre-wrap leading-relaxed ${
                       msg.role === "user"
                         ? "bg-amber-400 text-black font-bold rounded-2xl rounded-tr-none"
                         : "bg-surface-container-high text-on-surface rounded-2xl rounded-tl-none border border-white/5"
                     }`}>
-                    {msg.text}
+                    {renderFormattedText(msg.text)}
                   </div>
                 </div>
               ))}
