@@ -760,10 +760,114 @@ const BlogPostView = ({ post, onBack }: any) => (
   </motion.div>
 );
 
-const getMataraKnowledgeResponse = (prompt: string): string => {
+const fetchLiveMarsData = async (fallbackPrice: number | null) => {
+  const contract = "0x6844B2e9afB002d188A072A3ef0FBb068650F214";
+  try {
+    const res = await fetch(
+      `https://api.dexscreener.com/latest/dex/tokens/${contract}`,
+    );
+    if (res.ok) {
+      const data = await res.json();
+      if (data.pairs && data.pairs.length > 0) {
+        const topPair = data.pairs.sort(
+          (a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0),
+        )[0];
+        const p = parseFloat(topPair.priceUsd || "0");
+        const mc =
+          topPair.fdv ||
+          topPair.marketCap ||
+          Math.round((p || 0.000000064) * 690000000000);
+        const liq = topPair.liquidity?.usd || 15600;
+        return {
+          priceStr:
+            p > 0
+              ? `$${p < 0.0001 ? p.toFixed(9) : p.toFixed(6)}`
+              : `$${(fallbackPrice || 0.000000064).toFixed(9)}`,
+          marketCapStr: `$${(mc || 44160).toLocaleString()}`,
+          liquidityStr: `$${(liq || 15600).toLocaleString()}`,
+          contract: contract,
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("Live DexScreener fetch error:", err);
+  }
+
+  const p = fallbackPrice || 0.000000064;
+  const mc = Math.round(p * 690000000000);
+  return {
+    priceStr: `$${p < 0.0001 ? p.toFixed(9) : p.toFixed(6)}`,
+    marketCapStr: `$${(mc || 44160).toLocaleString()}`,
+    liquidityStr: "$15,600+",
+    contract: contract,
+  };
+};
+
+const getMataraKnowledgeResponse = async (
+  prompt: string,
+  fallbackPrice: number | null,
+): Promise<string> => {
   const query = prompt.trim().toLowerCase();
 
-  // 1. Greetings & Salutations
+  // 1. Real-time Price Queries
+  if (
+    query.includes("how much") ||
+    query.includes("price") ||
+    query.includes("cost of mars") ||
+    query.includes("value of mars") ||
+    query.includes("worth")
+  ) {
+    const live = await fetchLiveMarsData(fallbackPrice);
+    return `The live price of $MARS is ${live.priceStr} USD.`;
+  }
+
+  // 2. Real-time Market Cap Queries
+  if (
+    query.includes("market cap") ||
+    query.includes("marketcap") ||
+    query.includes("mc") ||
+    query.includes("fdv") ||
+    query.includes("valuation")
+  ) {
+    const live = await fetchLiveMarsData(fallbackPrice);
+    return `The Market Cap of $MARS is approximately ${live.marketCapStr} USD (based on 690 Billion total supply).`;
+  }
+
+  // 3. Contract Address (CA) Queries
+  if (
+    query === "ca" ||
+    query.includes("ca ") ||
+    query.includes(" ca") ||
+    query.includes("contract address") ||
+    query.includes("contract") ||
+    query.includes("bsc address")
+  ) {
+    return `Official $MARS BSC Contract Address (CA):\n0x6844B2e9afB002d188A072A3ef0FBb068650F214`;
+  }
+
+  // 4. Liquidity Locked Queries
+  if (
+    query.includes("liquidity") ||
+    query.includes("lp") ||
+    query.includes("locked liquidity") ||
+    query.includes("liquidity locked")
+  ) {
+    const live = await fetchLiveMarsData(fallbackPrice);
+    return `Liquidity Security:\n• 50% Liquidity Locked (${live.liquidityStr} in LP)\n• 10% Permanently Burned on-chain\n• Contract Ownership Renounced!`;
+  }
+
+  // 5. Live Stats / Overview Queries
+  if (
+    query.includes("stat") ||
+    query.includes("info") ||
+    query.includes("overview") ||
+    query.includes("live data")
+  ) {
+    const live = await fetchLiveMarsData(fallbackPrice);
+    return `📊 $MARS Live Stats:\n• Price: ${live.priceStr} USD\n• Market Cap: ${live.marketCapStr} USD\n• Liquidity Locked: 50% (${live.liquidityStr})\n• CA: 0x6844B2e9afB002d188A072A3ef0FBb068650F214\n• Total Supply: 690 Billion $MARS`;
+  }
+
+  // 6. Greetings & Salutations
   if (
     query === "hi" ||
     query === "hello" ||
@@ -782,23 +886,42 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "Hello! I'm Marty, your Matara AI assistant. How can I help you today?";
   }
 
-  // 2. Persona & Identity Questions
-  if (query.includes("who are you") || query.includes("what is your name") || query.includes("who created you") || query.includes("what can you do") || query.includes("marty")) {
-    return "I'm Marty, your Matara ($MARS) AI Guide! Ask me about tokenomics, contract security, buying on PancakeSwap, or our roadmap.";
+  // 7. Persona & Identity Questions
+  if (
+    query.includes("who are you") ||
+    query.includes("what is your name") ||
+    query.includes("who created you") ||
+    query.includes("what can you do") ||
+    query.includes("marty")
+  ) {
+    return "I'm Marty, your Matara ($MARS) AI Guide! Ask me about live price, Market Cap, contract address (CA), locked liquidity, tokenomics, or our roadmap.";
   }
 
-  // 3. Courtesy & Casual Chat
-  if (query.includes("how are you") || query.includes("how r u") || query.includes("doing well")) {
+  // 8. Courtesy & Casual Chat
+  if (
+    query.includes("how are you") ||
+    query.includes("how r u") ||
+    query.includes("doing well")
+  ) {
     return "I'm doing great! How can Marty assist you today?";
   }
-  if (query.includes("thank") || query.includes("thanks") || query.includes("awesome") || query.includes("great")) {
+  if (
+    query.includes("thank") ||
+    query.includes("thanks") ||
+    query.includes("awesome") ||
+    query.includes("great")
+  ) {
     return "You're welcome! Marty is always here to help.";
   }
-  if (query.includes("bye") || query.includes("goodbye") || query.includes("see ya")) {
+  if (
+    query.includes("bye") ||
+    query.includes("goodbye") ||
+    query.includes("see ya")
+  ) {
     return "Goodbye! Have a great day ahead.";
   }
 
-  // 4. Token Meaning & Purpose
+  // 9. Token Meaning & Purpose
   if (
     query.includes("what is matara") ||
     query.includes("what is mars") ||
@@ -810,7 +933,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "Matara ($MARS) means 'Purpose'. It is a sovereign crypto ecosystem built on Binance Smart Chain (BSC) focused on real utility, community strength, and long-term conviction.";
   }
 
-  // 5. Tokenomics, Total Supply & Burn
+  // 10. Tokenomics, Total Supply & Burn
   if (
     query.includes("supply") ||
     query.includes("total supply") ||
@@ -823,7 +946,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "Total Supply: 690 Billion $MARS.\n• 50% Locked Liquidity\n• 10% Permanently Burned\n• 40% Ecosystem & Task Rewards\n• 10% Team Reserve\nOwnership is renounced!";
   }
 
-  // 6. Tax, Reflection Rewards & Wikicat ($WKC)
+  // 11. Tax, Reflection Rewards & Wikicat ($WKC)
   if (
     query.includes("tax") ||
     query.includes("reflection") ||
@@ -836,7 +959,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "$MARS has a 1% reflection tax on trades that automatically rewards holders in $WKC (Wikicat).";
   }
 
-  // 7. Buying, Trading & PancakeSwap
+  // 12. Buying, Trading & PancakeSwap
   if (
     query.includes("buy") ||
     query.includes("pancake") ||
@@ -849,21 +972,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "You can buy $MARS on PancakeSwap or via our built-in DEX Swap engine by swapping BNB on Binance Smart Chain.";
   }
 
-  // 8. Contract Address, Security & Audits
-  if (
-    query.includes("lock") ||
-    query.includes("security") ||
-    query.includes("audit") ||
-    query.includes("contract") ||
-    query.includes("address") ||
-    query.includes("safe") ||
-    query.includes("trust") ||
-    query.includes("renounce")
-  ) {
-    return "Security: 50% liquidity is locked, 10% burned, and ownership is renounced.\nVerified Contract: 0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf";
-  }
-
-  // 9. Ecosystem Products (Mini-App, Marsverse App, SNR, Brand Portal)
+  // 13. Ecosystem Products
   if (
     query.includes("app") ||
     query.includes("mini") ||
@@ -877,7 +986,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "The Matara Mini-App and Marsverse Mobile App feature task rewards ($SNR), live BSC price charts, DEX token swapping, and the Brand Partner Portal.";
   }
 
-  // 10. Roadmap & Future Phases
+  // 14. Roadmap & Future Phases
   if (
     query.includes("roadmap") ||
     query.includes("phase") ||
@@ -889,7 +998,7 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "The Lion's Path Roadmap:\n• Phase 1: Launch & Community\n• Phase 2: PancakeSwap, CMC/CG, Mini-App Beta\n• Phase 3: Tier-2 CEX, NFT Staking, Mini-App V1\n• Phase 4: Tier-1 CEX & Hope Initiatives";
   }
 
-  // 11. Community & Social Links
+  // 15. Community & Social Links
   if (
     query.includes("telegram") ||
     query.includes("twitter") ||
@@ -903,18 +1012,18 @@ const getMataraKnowledgeResponse = (prompt: string): string => {
     return "Join our community on X (@mataratoken), Telegram, Medium ('The Pride Chronicles'), and Discord. Official links are in the site header and footer!";
   }
 
-  // 12. General AI Fallback
-  return "I'm Marty! Ask me anything about Matara ($MARS) tokenomics, contract security, how to buy, or our roadmap.";
+  // 16. General AI Fallback
+  return "I'm Marty! Ask me about live price, Market Cap, CA (0x6844B2e9afB002d188A072A3ef0FBb068650F214), locked liquidity, tokenomics, or our roadmap.";
 };
 
-const AISupport = () => {
+const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
     { role: "user" | "ai"; text: string }[]
   >([
     {
       role: "ai",
-      text: "Hello! I am Marty, your Matara AI guide. Ask me anything about $MARS, our ecosystem, tokenomics, or mission!",
+      text: "Hello! I am Marty, your Matara AI guide. Ask me about $MARS live price, Market Cap, CA, locked liquidity, or roadmap!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -938,13 +1047,13 @@ const AISupport = () => {
     try {
       const apiKey = process.env.GEMINI_API_KEY;
       if (apiKey) {
+        const live = await fetchLiveMarsData(marsPrice || null);
         const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
           model: "gemini-3-flash-preview",
           contents: userMsg,
           config: {
-            systemInstruction:
-              "You are Marty, the AI Intel Guide for Matara ($MARS) on BSC. Introduce yourself as Marty when asked. Respond warmly, simply, and concisely to greetings and questions. You are trained on Matara's identity (Matara means 'Purpose'), total supply (690B $MARS), 1% reflection rewards in $WKC, 50% locked liquidity, 10% burned, 40% ecosystem, 10% team reserve, ownership renounced, verified contract (0x90B38421869e5C70f2fA3C98a8Ac47432C1d6dFf), Matara Mini-App, Marsverse Mobile App, and 4-Phase Roadmap. Keep answers clean, short, and friendly.",
+            systemInstruction: `You are Marty, the AI Intel Guide for Matara ($MARS) on BSC. Introduce yourself as Marty when asked. Respond warmly, simply, and concisely to greetings and questions. Current Live Data: Price = ${live.priceStr}, Market Cap = ${live.marketCapStr}, CA = 0x6844B2e9afB002d188A072A3ef0FBb068650F214, Liquidity = 50% locked (${live.liquidityStr}). Keep answers clean, short, and friendly.`,
           },
         });
 
@@ -955,12 +1064,18 @@ const AISupport = () => {
         }
       }
 
-      // Intelligent Conversational Knowledge Engine
-      const fallbackReply = getMataraKnowledgeResponse(userMsg);
+      // Intelligent Conversational Knowledge Engine with Live Fetching
+      const fallbackReply = await getMataraKnowledgeResponse(
+        userMsg,
+        marsPrice || null,
+      );
       setMessages((prev) => [...prev, { role: "ai", text: fallbackReply }]);
     } catch (error) {
       console.error(error);
-      const fallbackReply = getMataraKnowledgeResponse(userMsg);
+      const fallbackReply = await getMataraKnowledgeResponse(
+        userMsg,
+        marsPrice || null,
+      );
       setMessages((prev) => [...prev, { role: "ai", text: fallbackReply }]);
     } finally {
       setLoading(false);
@@ -2583,7 +2698,7 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      <AISupport />
+      <AISupport marsPrice={marsPrice} />
 
       {/* Success Modal */}
       <AnimatePresence>
