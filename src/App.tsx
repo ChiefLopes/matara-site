@@ -1092,10 +1092,14 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="glass-card mb-4 w-[320px] sm:w-[380px] h-[500px] flex flex-col overflow-hidden shadow-2xl border-amber-400/20">
             <div className="p-4 border-b border-white/10 bg-amber-400/10 flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/matara-icon1.png"
+                  alt="Marty Lion Mascot"
+                  className="w-6 h-6 object-contain drop-shadow-md"
+                />
                 <span className="font-headline text-sm font-black tracking-widest text-amber-400">
-                  MARTY — INTEL AI
+                  MARTY
                 </span>
               </div>
               <button
@@ -1138,7 +1142,7 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                  placeholder="Ask about Matara..."
+                  placeholder="Ask Marty anything..."
                   className="w-full bg-neutral-950 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm focus:outline-none focus:border-amber-400 transition-colors"
                 />
                 <button
@@ -1155,15 +1159,17 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="solar-flare-gradient p-4 rounded-full shadow-2xl hover:scale-110 transition-all active:scale-95 group relative">
-        <div className="absolute -top-12 right-0 bg-amber-400 text-black text-[10px] font-black px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest">
-          Need Intel?
+        className="solar-flare-gradient px-4 py-3 rounded-full shadow-2xl hover:scale-105 transition-all active:scale-95 flex items-center gap-2.5 border border-amber-400/50 group relative">
+        <div className="w-7 h-7 rounded-full overflow-hidden bg-black/30 border border-black/20 shrink-0 flex items-center justify-center">
+          <img
+            src="/matara-icon1.png"
+            alt="Marty Lion Mascot"
+            className="w-5 h-5 object-contain"
+          />
         </div>
-        {isOpen ? (
-          <X className="w-6 h-6 text-black" />
-        ) : (
-          <MessageSquare className="w-6 h-6 text-black" />
-        )}
+        <span className="text-black font-headline text-xs font-black tracking-wider uppercase flex items-center gap-1.5">
+          {isOpen ? "Close" : "Ask Marty"}
+        </span>
       </button>
     </div>
   );
@@ -2510,7 +2516,7 @@ function AppContent() {
               <div className="graffiti-warrior-bg" />
               <div className="container mx-auto px-6 max-w-4xl relative z-10">
                 <SectionHeading
-                  subtitle="Intel Center"
+                  subtitle="Ask Marty"
                   title="Frequently Asked Questions"
                 />
 
