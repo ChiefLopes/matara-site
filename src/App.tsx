@@ -1907,7 +1907,7 @@ function AppContent() {
                   initial={{ opacity: 0, x: 280, scale: 0.45 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                  className="relative hidden lg:flex items-center justify-center mt-8 lg:mt-0">
+                  className="relative hidden lg:flex flex-col items-center justify-center mt-8 lg:mt-0">
                   <div className="absolute inset-0 bg-amber-400/25 blur-[100px] rounded-full animate-mascot-aura" />
                   <motion.div
                     style={{
@@ -1920,34 +1920,36 @@ function AppContent() {
                       <img
                         src="/mascot/hero-lion-transparent.png"
                         alt="Matara Sovereign Lion Warrior Mascot"
-                        className="w-full h-auto max-h-[380px] sm:max-h-[480px] lg:max-h-[620px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.45)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
+                        className="w-full h-auto max-h-[340px] sm:max-h-[420px] lg:max-h-[520px] object-contain filter drop-shadow-[0_20px_50px_rgba(251,191,36,0.45)] group-hover:scale-105 transition-all duration-700 relative z-10 pointer-events-none"
                       />
                     </div>
                   </motion.div>
 
-                    {/* Floating Stats Card */}
-                    <motion.div
-                      initial={{ x: 50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 1 }}
-                      style={{ y: smoothStatsY }}
-                      className="absolute -bottom-6 -left-6 glass-card p-4 border-white/10 shadow-2xl backdrop-blur-2xl">
-                      <div className="text-[8px] text-zinc-500 uppercase tracking-widest mb-0.5 font-bold">
-                        Supply
-                      </div>
-                      <div className="text-xl font-headline font-black text-amber-400 tracking-tighter">
-                        <Counter target={690000000000} />
-                      </div>
-                      <div className="mt-2 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: "100%" }}
-                          transition={{ duration: 2, delay: 1.5 }}
-                          className="h-full solar-flare-gradient"
-                        />
-                      </div>
-                    </motion.div>
+                  {/* Supply Card Directly Under Lion Mascot */}
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="glass-card p-4 px-6 border-white/10 shadow-2xl backdrop-blur-2xl mt-4 relative z-20 min-w-[240px] text-center border-amber-400/20">
+                    <div className="text-[9px] text-zinc-400 uppercase tracking-widest mb-0.5 font-bold">
+                      Fixed Initial Supply
+                    </div>
+                    <div className="text-2xl font-headline font-black text-amber-400 tracking-tighter">
+                      <Counter target={690000000000} />
+                    </div>
+                    <div className="text-[10px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">
+                      $MARS Fixed Supply
+                    </div>
+                    <div className="mt-2 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 2, delay: 1.2 }}
+                        className="h-full solar-flare-gradient"
+                      />
+                    </div>
                   </motion.div>
+                </motion.div>
                 </div>
 
               {/* Scroll Indicator */}
