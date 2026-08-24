@@ -1520,7 +1520,7 @@ const AnniversaryModal = ({ onClose }: { onClose: () => void }) => {
             Live Announcement
           </div>
           <motion.img
-            src="/MataraAnniversary.png"
+            src="/MataraAnniversary.jpg"
             alt="Matara Anniversary"
             initial={{ scale: 1.08 }}
             animate={{ scale: 1 }}
@@ -1624,14 +1624,17 @@ function AppContent() {
   const [showAnniversary, setShowAnniversary] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem(ANNIVERSARY_STORAGE_KEY)) return;
+    if (!import.meta.env.DEV && localStorage.getItem(ANNIVERSARY_STORAGE_KEY))
+      return;
     const timer = setTimeout(() => setShowAnniversary(true), 2700);
     return () => clearTimeout(timer);
   }, []);
 
   const closeAnniversary = useCallback(() => {
     setShowAnniversary(false);
-    localStorage.setItem(ANNIVERSARY_STORAGE_KEY, "1");
+    if (!import.meta.env.DEV) {
+      localStorage.setItem(ANNIVERSARY_STORAGE_KEY, "1");
+    }
   }, []);
 
   const { sendTransactionAsync } = useSendTransaction();
