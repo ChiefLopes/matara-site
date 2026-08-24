@@ -1,3 +1,4 @@
+import { logMartyChatMessage, saveNewsletterSubscriber } from "./lib/firebase";
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -269,8 +270,8 @@ const TransactionLog = ({ isDarkMode }: { isDarkMode: boolean }) => {
           },
           {
             type: "BUY",
-            amount: "2.50",
-            tokens: Math.round((2.50 * 600) / price).toLocaleString(),
+            amount: "1.00",
+            tokens: Math.round((1.00 * 600) / price).toLocaleString(),
             time: "14m ago",
             hash: `${pairAddr.slice(6, 16)}...${pairAddr.slice(-4)}`,
           },
@@ -1123,6 +1124,7 @@ const AISupport = ({ marsPrice }: { marsPrice?: number | null }) => {
     setInput("");
     setMessages((prev) => [...prev, { role: "user", text: userMsg }]);
     setLoading(true);
+    logMartyChatMessage("user", userMsg);
 
     try {
       const apiKey = process.env.GEMINI_API_KEY;
@@ -1833,6 +1835,8 @@ function AppContent() {
     }
   }, [isDarkMode]);
 
+  
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(contractAddress);
     setCopied(true);
@@ -1924,6 +1928,7 @@ function AppContent() {
               );
             })}
             <div className="h-4 w-px bg-white/10 mx-2" />
+            
             <a
               href={LINKS.PANCAKESWAP}
               target="_blank"
@@ -1960,15 +1965,17 @@ function AppContent() {
             {navItems.map((item) => {
               if (item === "Marstats") {
                 return (
-                  <a
-                    key={item}
-                    href={LINKS.MARSTATS}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="font-headline font-bold tracking-tight uppercase text-amber-400 hover:text-amber-300 transition-colors text-lg flex items-center gap-2">
-                    Marstats <ExternalLink className="w-4 h-4" />
-                  </a>
+                  <div key={item} className="flex flex-col gap-3 pt-2 border-t border-white/10">
+                    
+                    <a
+                      href={LINKS.MARSTATS}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="font-headline font-bold tracking-tight uppercase text-amber-400 hover:text-amber-300 transition-colors text-lg flex items-center gap-2">
+                      Marstats <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
                 );
               }
 
@@ -2361,22 +2368,56 @@ function AppContent() {
                       />
                     </div>
                     <div className="flex-1 bg-surface-container/80 p-6 md:p-8 backdrop-blur-md relative z-10 border border-on-surface/5">
-                      <h3 className="font-headline text-xl md:text-2xl font-bold text-on-surface mb-4">
-                        Sovereign Governance
-                      </h3>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                        <h3 className="font-headline text-xl md:text-2xl font-bold text-on-surface">
+                          Sovereign Governance
+                        </h3>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-400/10 border border-amber-400/30 rounded text-[9px] font-mono font-bold text-amber-400 uppercase tracking-widest self-start sm:self-auto">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                          Testing Ready: 0 Active Votes
+                        </div>
+                      </div>
                       <p className="text-on-surface-variant text-xs md:text-sm leading-relaxed">
                         The pride decides. $MARS holders vote on critical
                         ecosystem developments, treasury allocations, and
                         strategic pivots.
                       </p>
-                      <button className="mt-6 text-xs font-black uppercase tracking-widest text-amber-400 border-b border-amber-400/40 pb-1 hover:border-amber-400 hover:tracking-[0.2em] transition-all">
-                        Launch Snapshot
-                      </button>
+
+                      {/* Governance Voting Tally Widget */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 p-4 rounded-xl bg-black/50 border border-amber-400/20">
+                        <div className="space-y-1">
+                          <div className="text-[9px] font-mono font-bold uppercase tracking-widest text-zinc-400">
+                            Total Votes Cast
+                          </div>
+                          <div className="text-2xl md:text-3xl font-headline font-black text-white tracking-tight flex items-baseline gap-1.5">
+                            0 <span className="text-xs font-mono font-normal text-amber-400">Votes</span>
+                          </div>
+                          <p className="text-[10px] text-zinc-500 font-mono">
+                            Initialized for live testing
+                          </p>
+                        </div>
+
+                        <div className="space-y-1 sm:border-l sm:border-white/10 sm:pl-4">
+                          <div className="text-[9px] font-mono font-bold uppercase tracking-widest text-zinc-400">
+                            Proposal Approval Rate
+                          </div>
+                          <div className="text-2xl md:text-3xl font-headline font-black text-amber-400 tracking-tight">
+                            0.0%
+                          </div>
+                          <p className="text-[10px] text-zinc-500 font-mono">
+                            Will update on live money voting
+                          </p>
+                        </div>
+                      </div>
+
+                      
                     </div>
                   </div>
                 </div>
               </div>
             </section>
+
+            
 
             {/* Marsverse App Showcase Section */}
             <MarsverseAppShowcase links={LINKS} />
@@ -3233,6 +3274,7 @@ function AppContent() {
           </motion.div>
         ))}
       </AnimatePresence>
+      
     </div>
   );
 }
