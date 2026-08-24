@@ -1458,6 +1458,106 @@ const InteractiveMascotSidekick = () => {
   );
 };
 
+const ANNIVERSARY_STORAGE_KEY = "matara_anniversary_seen";
+
+const AnniversaryModal = ({ onClose }: { onClose: () => void }) => {
+  const sparkles = [
+    { left: "8%", top: "18%", size: 5, delay: 0 },
+    { left: "90%", top: "12%", size: 7, delay: 0.4 },
+    { left: "14%", top: "65%", size: 6, delay: 0.8 },
+    { left: "86%", top: "70%", size: 5, delay: 1.2 },
+    { left: "50%", top: "6%", size: 6, delay: 0.6 },
+    { left: "4%", top: "42%", size: 4, delay: 1 },
+    { left: "95%", top: "45%", size: 4, delay: 1.6 },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/85 backdrop-blur-sm"
+      />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {sparkles.map((s, i) => (
+          <motion.span
+            key={i}
+            animate={{ opacity: [0, 1, 0], scale: [0.4, 1.3, 0.4] }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              delay: s.delay,
+              ease: "easeInOut",
+            }}
+            style={{ left: s.left, top: s.top, width: s.size, height: s.size }}
+            className="absolute rounded-full bg-amber-400 shadow-[0_0_14px_rgba(251,191,36,0.9)]"
+          />
+        ))}
+      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 30 }}
+        transition={{ type: "spring", stiffness: 220, damping: 22 }}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Matara Anniversary Announcement"
+        className="relative z-10 w-full max-w-sm sm:max-w-md glass-card border border-amber-400/40 overflow-hidden shadow-[0_0_90px_rgba(247,190,51,0.25)]">
+        <button
+          onClick={onClose}
+          aria-label="Close anniversary announcement"
+          className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-400/50 transition-colors backdrop-blur-sm">
+          <X className="w-4 h-4" />
+        </button>
+
+        <div className="relative">
+          <div className="absolute top-4 left-4 z-20 inline-flex items-center gap-1.5 px-3 py-1 bg-black/70 backdrop-blur-sm border border-amber-400/40 rounded-full text-amber-400 text-[9px] font-black uppercase tracking-widest">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+            Live Announcement
+          </div>
+          <motion.img
+            src="/MataraAnniversary.png"
+            alt="Matara Anniversary"
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full aspect-square object-cover"
+            decoding="async"
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-neutral-950 to-transparent" />
+        </div>
+
+        <div className="px-6 pb-7 sm:px-8 sm:pb-8 -mt-2 relative text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-400/10 border border-amber-400/20 rounded-full text-amber-400 text-[10px] font-bold uppercase tracking-widest">
+            <Sparkles className="w-3 h-3" /> The Pride Turns Another Year Older
+          </div>
+          <h3 className="font-headline text-2xl sm:text-3xl font-black uppercase tracking-tight leading-tight">
+            <span className="text-amber-400 text-glow">Happy Anniversary</span>,
+            Mataria!
+          </h3>
+          <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed max-w-sm mx-auto">
+            Today we celebrate another orbit around the sun as the sovereign
+            Pride of Matara. Every holder, every warrior, every believer made
+            this milestone possible. Onwards to galactic dominance!
+          </p>
+          <button
+            onClick={onClose}
+            className="w-full py-4 solar-flare-gradient text-black font-headline font-black uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-amber-400/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+            Join the Celebration <Sparkles className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onClose}
+            className="text-[10px] uppercase tracking-widest text-zinc-500 hover:text-zinc-300 transition-colors font-bold">
+            Continue to site
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 function AppContent() {
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -1519,6 +1619,18 @@ function AppContent() {
   const [subscribing, setSubscribing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [showAnniversary, setShowAnniversary] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem(ANNIVERSARY_STORAGE_KEY)) return;
+    const timer = setTimeout(() => setShowAnniversary(true), 2700);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const closeAnniversary = useCallback(() => {
+    setShowAnniversary(false);
+    localStorage.setItem(ANNIVERSARY_STORAGE_KEY, "1");
+  }, []);
 
   const { sendTransactionAsync } = useSendTransaction();
 
@@ -2853,6 +2965,11 @@ function AppContent() {
       </AnimatePresence>
 
       <AISupport marsPrice={marsPrice} />
+
+      {/* Anniversary Announcement Modal */}
+      <AnimatePresence>
+        {showAnniversary && <AnniversaryModal onClose={closeAnniversary} />}
+      </AnimatePresence>
 
       {/* Success Modal */}
       <AnimatePresence>
